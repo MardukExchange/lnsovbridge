@@ -65,7 +65,10 @@ export const handler = async (argv: Arguments<any>): Promise<void> => {
     );
   }
 
+  console.log("before tx wait");
   await transaction.wait(1);
+  console.log("after tx wait");
 
   console.log(`Sent ${argv.token ? 'ERC20 token' : 'Rbtc'} in: ${transaction.hash}`);
+  console.log("tx: ", transaction);
 };

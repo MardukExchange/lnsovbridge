@@ -163,11 +163,13 @@ class RateProvider {
     // Updating rates and fees at the same time would result in a race condition
     // that could leave the fee estimations for the ERC20 tokens outdated or even
     // "null" on the very first run of this function
+    this.logger.error('rateprovider.166');
     const updatedRates = await this.dataAggregator.fetchPairs();
-
+    this.logger.error('rateprovider.168 ' + stringify(updatedRates));
     await this.updateMinerFees();
 
     for (const [pairId, rate] of updatedRates) {
+      this.logger.error('rateprovider.172 ' + pairId);
       // Filter pairs that are fetched (for example to calculate gas fees for a BTC/<token> pair)
       // but not specified in the config
       if (!this.configPairs.has(pairId)) {

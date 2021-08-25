@@ -57,21 +57,27 @@ class RskManager {
       this.rskConfig,
     );
 
+    this.logger.error("rskprovider: "+ JSON.stringify(this.provider));
+
     this.logger.debug(`Using Rsk Swap contract: ${this.rskConfig.rbtcSwapAddress}`);
     this.logger.debug(`Using Rsk ERC20 Swap contract: ${this.rskConfig.erc20SwapAddress}`);
 
     this.etherSwap = new Contract(
       rskConfig.rbtcSwapAddress,
       ContractABIs.EtherSwap as any,
+      this.provider,
     ) as any as EtherSwap;
 
     this.erc20Swap = new Contract(
       rskConfig.erc20SwapAddress,
       ContractABIs.ERC20Swap as any,
+      this.provider,
     ) as any as ERC20Swap;
 
     this.contractHandler = new ContractHandler(this.logger);
+    this.logger.error("rsk ContractHandler done")
     this.contractEventHandler = new ContractEventHandler(this.logger);
+    this.logger.error("rsk ContractEventHandler done")
   }
 
   public init = async (mnemonic: string, chainTipRepository: ChainTipRepository): Promise<Map<string, Wallet>> => {
