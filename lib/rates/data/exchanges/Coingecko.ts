@@ -10,6 +10,7 @@ class Coingecko implements Exchange {
     let longerquoteasset = this.longerName(quoteAsset);
     let lowerbaseasset = baseAsset.toLowerCase();
     const pair = `${this.longerName(quoteAsset)}&vs_currencies=${baseAsset}`;
+    console.log("querying pair: ", pair);
     const response = await makeRequest(`${Coingecko.API}/simple/price?ids=${pair}`);
     // console.log("response: ", response, response[longerquoteasset]);
     const lastprice = response[longerquoteasset][lowerbaseasset];
@@ -27,6 +28,7 @@ class Coingecko implements Exchange {
       case 'ETH': return 'ethereum';
       case 'BTC': return 'bitcoin';
       case 'RBTC': return 'rootstock';
+      case 'STX': return 'blockstack';
 
       default: return asset;
     }    

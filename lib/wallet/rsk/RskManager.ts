@@ -59,6 +59,8 @@ class RskManager {
     );
     this.logger.error("rskprovider: "+ JSON.stringify(this.provider));
 
+    this.logger.error("rskprovider: "+ JSON.stringify(this.provider));
+
     this.logger.debug(`Using Rsk Swap contract: ${this.rskConfig.rbtcSwapAddress}`);
     this.logger.debug(`Using Rsk ERC20 Swap contract: ${this.rskConfig.erc20SwapAddress}`);
 

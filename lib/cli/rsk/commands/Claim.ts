@@ -44,11 +44,20 @@ export const handler = async (argv: Arguments<any>): Promise<void> => {
     // manual claim
     transaction = await erc20Swap.claim(
       preimage,
-      112279872,
-      "0x9f84F92d952f90027618089F6F2a3481f1a3fa0F",
-      "0xe142868123ab36a88f86a8f5cd08a77e9225da60",
-      297071,
+      erc20SwapValues.amount,
+      erc20SwapValues.tokenAddress,
+      erc20SwapValues.refundAddress,
+      erc20SwapValues.timelock,
     );
+
+    // // manual claim
+    // transaction = await erc20Swap.claim(
+    //   preimage,
+    //   112279872,
+    //   "0x9f84F92d952f90027618089F6F2a3481f1a3fa0F",
+    //   "0xe142868123ab36a88f86a8f5cd08a77e9225da60",
+    //   297071,
+    // );
   } else {
     console.log("rbtc claim to refundaddress: ", JSON.stringify(etherSwap));
     const etherSwapValues = await queryEtherSwapValues(etherSwap, crypto.sha256(preimage));
