@@ -33,6 +33,8 @@ class GrpcServer {
 
     const cert = fs.readFileSync(certpath);
     const key = fs.readFileSync(keypath);
+    // this.logger.error("cert: " + cert);
+    // this.logger.error("key: " + key);
 
     assert(Number.isInteger(port) && port > 1023 && port < 65536, 'port must be an integer between 1024 and 65536');
 
@@ -44,6 +46,7 @@ class GrpcServer {
       }],
       false,
     );
+    this.logger.error("grpc binding to: " + host + ", " + port);
     const bindCode = this.server.bind(`${host}:${port}`, serverCert);
 
     if (bindCode !== port) {

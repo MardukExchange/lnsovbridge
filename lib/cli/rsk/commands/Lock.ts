@@ -43,7 +43,8 @@ export const handler = async (argv: Arguments<any>): Promise<void> => {
   let transaction: ContractTransaction;
 
   if (argv.token) {
-    console.log("rsk erc20Swap.lock to erc20SwapAddress: ", Constants.erc20SwapAddress);
+    // console.log("rsk erc20Swap.lock to erc20SwapAddress: ", Constants.erc20SwapAddress);
+    console.log("getting approval from token, erc20swapaddress, amount: ",token, Constants.erc20SwapAddress, amount);
     await token.approve(Constants.erc20SwapAddress, amount);
     console.log("rsk erc20Swap.lock after approve: ", preimageHash, amount, Constants.erc20TokenAddress, boltzAddress, argv.timelock);
     transaction = await erc20Swap.lock(

@@ -30,16 +30,16 @@ export const handler = async (argv: Arguments<any>): Promise<void> => {
   if (argv.token) {
     console.log("1rerc20 claim erc20SwapValues: ", argv.token, JSON.stringify(erc20Swap));
 
-    // // const erc20SwapValues = await queryERC20SwapValues(erc20Swap, crypto.sha256(preimage));
-    // const erc20SwapValues = await queryERC20SwapValues(erc20Swap, preimage);
-    // console.log("rerc20 claim erc20SwapValues: ", JSON.stringify(erc20SwapValues));
-    // transaction = await erc20Swap.claim(
-    //   preimage,
-    //   erc20SwapValues.amount,
-    //   erc20SwapValues.tokenAddress,
-    //   erc20SwapValues.refundAddress,
-    //   erc20SwapValues.timelock,
-    // );
+     // const erc20SwapValues = await queryERC20SwapValues(erc20Swap, crypto.sha256(preimage));
+     const erc20SwapValues = await queryERC20SwapValues(erc20Swap, preimage);
+     console.log("rerc20 claim erc20SwapValues: ", JSON.stringify(erc20SwapValues));
+     transaction = await erc20Swap.claim(
+       preimage,
+       erc20SwapValues.amount,
+       erc20SwapValues.tokenAddress,
+       erc20SwapValues.refundAddress,
+       erc20SwapValues.timelock,
+     );
 
     // manual claim
     transaction = await erc20Swap.claim(

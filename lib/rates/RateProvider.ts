@@ -228,12 +228,21 @@ class RateProvider {
 
     if (baseLimits && quoteLimits) {
       let minimalLimit = Math.max(quoteLimits.minimal, baseLimits.minimal * rate);
+      this.logger.error("getLimits minimalLimit " + pair + ", " + minimalLimit);
 
       // Make sure the minimal limit is at least 4 times the fee needed to claim
       const minimalLimitQuoteTransactionFee = this.feeProvider.getBaseFee(quote, BaseFeeType.NormalClaim) * 4;
       const minimalLimitBaseTransactionFee = this.feeProvider.getBaseFee(base, BaseFeeType.NormalClaim) * rate * 4;
+      this.logger.error("getLimits minimalLimitQuoteTransactionFee " + minimalLimitQuoteTransactionFee);
+      this.logger.error("getLimits minimalLimitBaseTransactionFee " + minimalLimitBaseTransactionFee);
 
-      minimalLimit = Math.max(minimalLimit, minimalLimitBaseTransactionFee, minimalLimitQuoteTransactionFee);
+      if(base === "SOV" || quote === "SOV"){
+        minimalLimit = Math.max(minimalLimit, 0, minimalLimitQuoteTransactionFee);
+      } else {
+        minimalLimit = Math.max(minimalLimit, minimalLimitBaseTransactionFee, minimalLimitQuoteTransactionFee);
+      }
+      
+      // minimalLimit = Math.max(minimalLimit, minimalLimitBaseTransactionFee, minimalLimitQuoteTransactionFee);
 
       return {
         maximal: Math.floor(Math.min(quoteLimits.maximal, baseLimits.maximal * rate)),
