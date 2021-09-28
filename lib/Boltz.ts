@@ -45,7 +45,7 @@ class Boltz {
     this.config = new Config().load(config);
     this.logger = new Logger(this.config.loglevel, this.config.logpath);
 
-    this.logger.error(`boltz constructor`);
+    this.logger.info(`boltz constructor`);
 
     process.on('unhandledRejection', ((reason) => {
       this.logger.error(`Unhandled rejection: ${formatError(reason)}`);
@@ -85,7 +85,7 @@ class Boltz {
     }
 
     try {
-      this.logger.error(`new service in boltz.ts: ${this.currencies}` + JSON.stringify(this.currencies));
+      this.logger.info(`new service in boltz.ts: ${this.currencies}` + JSON.stringify(this.currencies));
       this.service = new Service(
         this.logger,
         this.config,
@@ -133,11 +133,11 @@ class Boltz {
 
   public start = async (): Promise<void> => {
     try {
-      this.logger.error(`start1 ` + JSON.stringify(Array.from(this.currencies)));
+      this.logger.info(`start1 ` + JSON.stringify(Array.from(this.currencies)));
       await this.db.migrate(this.currencies);
-      this.logger.error(`start2`);
+      this.logger.info(`start2`);
       await this.db.init();
-      this.logger.error(`after db init`);
+      this.logger.info(`after db init`);
       const chainTipRepository = new ChainTipRepository();
 
       // Query the chain tips now to avoid them being updated after the chain clients are initialized
@@ -312,7 +312,7 @@ class Boltz {
       });
     });
 
-    this.logger.error(`parsecurrencies returning final result: ${result}` + JSON.stringify(Array.from(result)));
+    this.logger.info(`parsecurrencies returning final result: ${result}` + JSON.stringify(Array.from(result)));
     return result;
   }
 

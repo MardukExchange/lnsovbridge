@@ -62,7 +62,7 @@ class RskNursery extends EventEmitter {
 
     this.listenBlocks();
 
-    this.logger.error("RskNursery listeners are starting...");
+    this.logger.info("RskNursery listeners are starting...");
     this.listenEtherSwap();
     this.listenERC20Swap();
   }

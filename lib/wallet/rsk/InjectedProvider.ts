@@ -27,7 +27,7 @@ class InjectedProvider implements providers.Provider {
   private static readonly requestTimeout = 5000;
 
   constructor(private logger: Logger, config: RskConfig) {
-    this.logger.error(`Rsk injectedprovider constructor: ` + JSON.stringify(config));
+    this.logger.info(`Rsk injectedprovider constructor: ` + JSON.stringify(config));
     if (config.providerEndpoint) {
       this.providers.set(EthProviderService.Websocket, new providers.WebSocketProvider(config.providerEndpoint));
       // this is processed
@@ -86,7 +86,7 @@ class InjectedProvider implements providers.Provider {
 
     for (const [providerName, provider] of this.providers) {
       try {
-        this.logger.error(`rsk injectedprovider getNetwork: ` + providerName + " " + JSON.stringify(provider));
+        this.logger.info(`rsk injectedprovider getNetwork: ` + providerName + " " + JSON.stringify(provider));
         const network = await provider.getNetwork();
         this.logConnectedProvider(providerName, network);
         networks.push(network);

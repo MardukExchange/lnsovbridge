@@ -52,14 +52,14 @@ class RskManager {
       throw Errors.MISSING_SWAP_CONTRACTS();
     }
 
-    this.logger.error("this.rskConfig: "+ JSON.stringify(this.rskConfig));
+    this.logger.info("this.rskConfig: "+ JSON.stringify(this.rskConfig));
     this.provider = new InjectedProvider(
       this.logger,
       this.rskConfig,
     );
-    this.logger.error("rskprovider: "+ JSON.stringify(this.provider));
+    this.logger.info("rskprovider: "+ JSON.stringify(this.provider));
 
-    this.logger.error("rskprovider: "+ JSON.stringify(this.provider));
+    this.logger.info("rskprovider: "+ JSON.stringify(this.provider));
 
     this.logger.debug(`Using Rsk Swap contract: ${this.rskConfig.rbtcSwapAddress}`);
     this.logger.debug(`Using Rsk ERC20 Swap contract: ${this.rskConfig.erc20SwapAddress}`);
@@ -69,7 +69,7 @@ class RskManager {
       ContractABIs.EtherSwap as any,
       this.provider,
     ) as any as EtherSwap;
-    this.logger.error("rsk etherSwap done")
+    this.logger.info("rsk etherSwap done")
 
     this.erc20Swap = new Contract(
       this.rskConfig.erc20SwapAddress,
@@ -78,9 +78,9 @@ class RskManager {
     ) as any as ERC20Swap;
 
     this.contractHandler = new ContractHandler(this.logger);
-    this.logger.error("rsk ContractHandler done")
+    this.logger.info("rsk ContractHandler done")
     this.contractEventHandler = new ContractEventHandler(this.logger);
-    this.logger.error("rsk ContractEventHandler done")
+    this.logger.info("rsk ContractEventHandler done")
   }
 
   public init = async (mnemonic: string, chainTipRepository: ChainTipRepository): Promise<Map<string, Wallet>> => {

@@ -160,7 +160,7 @@ class WalletManager {
     }
 
     if (this.rskManager) {
-      this.logger.error("inited rskManager inside WalletManager");
+      this.logger.info("inited rskManager inside WalletManager");
       const rskWallets = await this.rskManager.init(this.mnemonic, chainTipRepository);
 
       for (const [symbol, rskWallet] of rskWallets) {

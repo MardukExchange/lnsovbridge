@@ -94,7 +94,7 @@ class Service {
 
     this.logger.debug(`Using ${config.swapwitnessaddress ? 'P2WSH' : 'P2SH nested P2WSH'} addresses for Submarine Swaps`);
 
-    this.logger.error(`starting swapmanager inside service from Boltz`);
+    this.logger.info(`starting swapmanager inside service from Boltz`);
     this.swapManager = new SwapManager(
       this.logger,
       this.walletManager,
@@ -104,7 +104,7 @@ class Service {
       config.retryInterval,
     );
 
-    this.logger.error(`starting EventHandler inside service from Boltz for ${this.currencies}` + JSON.stringify(Array.from(this.currencies)) + " " + currencies);
+    this.logger.info(`starting EventHandler inside service from Boltz for ${this.currencies}` + JSON.stringify(Array.from(this.currencies)) + " " + currencies);
     this.eventHandler = new EventHandler(
       this.logger,
       this.currencies,
