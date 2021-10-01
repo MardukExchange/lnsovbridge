@@ -163,13 +163,13 @@ class RateProvider {
     // Updating rates and fees at the same time would result in a race condition
     // that could leave the fee estimations for the ERC20 tokens outdated or even
     // "null" on the very first run of this function
-    this.logger.error('rateprovider.166');
+    this.logger.info('rateprovider.166');
     const updatedRates = await this.dataAggregator.fetchPairs();
-    this.logger.error('rateprovider.168 ' + stringify(updatedRates));
+    this.logger.info('rateprovider.168 ' + stringify(updatedRates));
     await this.updateMinerFees();
 
     for (const [pairId, rate] of updatedRates) {
-      this.logger.error('rateprovider.172 ' + pairId);
+      this.logger.info('rateprovider.172 ' + pairId);
       // Filter pairs that are fetched (for example to calculate gas fees for a BTC/<token> pair)
       // but not specified in the config
       if (!this.configPairs.has(pairId)) {
@@ -230,13 +230,13 @@ class RateProvider {
 
     if (baseLimits && quoteLimits) {
       let minimalLimit = Math.max(quoteLimits.minimal, baseLimits.minimal * rate);
-      this.logger.error("getLimits minimalLimit " + pair + ", " + minimalLimit);
+      this.logger.info("getLimits minimalLimit " + pair + ", " + minimalLimit);
 
       // Make sure the minimal limit is at least 4 times the fee needed to claim
       const minimalLimitQuoteTransactionFee = this.feeProvider.getBaseFee(quote, BaseFeeType.NormalClaim) * 4;
       const minimalLimitBaseTransactionFee = this.feeProvider.getBaseFee(base, BaseFeeType.NormalClaim) * rate * 4;
-      this.logger.error("getLimits minimalLimitQuoteTransactionFee " + minimalLimitQuoteTransactionFee);
-      this.logger.error("getLimits minimalLimitBaseTransactionFee " + minimalLimitBaseTransactionFee);
+      this.logger.info("getLimits minimalLimitQuoteTransactionFee " + minimalLimitQuoteTransactionFee);
+      this.logger.info("getLimits minimalLimitBaseTransactionFee " + minimalLimitBaseTransactionFee);
 
       if(base === "SOV" || quote === "SOV"){
         minimalLimit = Math.max(minimalLimit, 0, minimalLimitQuoteTransactionFee);
