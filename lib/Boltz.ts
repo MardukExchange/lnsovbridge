@@ -148,7 +148,7 @@ class Boltz {
         
         // console.log("currency: ", currency);
         if (currency.chainClient) {
-          this.logger.error(`boltz start loop currency connectChainClient: ${currency}` + JSON.stringify(currency));
+          this.logger.info(`boltz start loop currency connectChainClient: ${currency}` + JSON.stringify(currency));
           await this.connectChainClient(currency.chainClient, chainTipRepository);
 
           if (currency.lndClient) {
