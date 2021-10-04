@@ -1,0 +1,22 @@
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - init: echo 'init script' # runs during prebuild
+    command: echo 'start script'
+  - init: > 
+      sudo apt install rsync
+      sudo add-apt-repository -y ppa:ethereum/ethereum
+      sudo apt-get update
+      sudo apt-get install ethereum
+      
+      mkdir $HOME/Downloads
+      cd $HOME/Downloads && wget https://github.com/rsksmart/rskj/releases/download/IRIS-3.0.1/rskj-core-3.0.1-IRIS-all.jar
+
+      mkdir ~/.boltz
+      cp boltz.gitpod.conf ~/.boltz/boltz.conf
+
+# List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
+ports:
+  - port: 3000
+    onOpen: open-preview
+  - port: 9001
+    visibility: public

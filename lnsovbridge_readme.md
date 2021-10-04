@@ -27,4 +27,23 @@ geth attach http://127.0.0.1:4444/
 docker:geth:fund
 rsk:fund
 
+
+### COPY BOLZZ CONFIG TO HOME_DIR
+mkdir ~/.boltz
+cp boltz.gitpod.conf ~/.boltz/boltz.conf
+
+
+### FRONTEND
+git clone https://github.com/pseudozach/boltz-frontend.git  
+cd boltz-frontend && npm i  
+* update .env file as needed  
+npm run start  
+
+GUI should be running on http://localhost:3000  
+Backend API should be running on http://localhost:9001  
+API Docs: https://docs.boltz.exchange/en/latest/
 ```
+
+
+### REGTEST INFO
+https://docs.boltz.exchange/en/latest/regtest/
