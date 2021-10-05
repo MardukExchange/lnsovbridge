@@ -14,9 +14,7 @@ tasks:
         sudo apt-get update --assume-yes
         sudo apt-get install ethereum --assume-yes
     command: |
-      geth attach http://127.0.0.1:4444/ > output.json
-      web3.eth.defaultAccount = eth.accounts[0]
-      loadScript("/workspace/lnsovbridge/etherswap.js")
+      geth attach http://127.0.0.1:4444/ --exec 'loadScript("/workspace/lnsovbridge/etherswap.js")' > output.json
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 9001
