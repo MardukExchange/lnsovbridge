@@ -22,4 +22,4 @@ tasks:
 ports:
   - port: 9001
     visibility: public
-    onOpen: open-preview
+    onOpen: open-browser
