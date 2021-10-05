@@ -151,14 +151,13 @@ class Controller {
   public getContracts = (req: Request, res: Response): void => {
     try {
       const contracts = this.service.getContracts();
-
       this.successResponse(res, {
-        ethereum: {
+        ethereum: contracts.ethereum === undefined ? undefined : {
           network: contracts.ethereum.network,
           swapContracts: mapToObject(contracts.ethereum.swapContracts),
           tokens: mapToObject(contracts.ethereum.tokens),
         },
-        rsk: {
+        rsk: contracts.rsk === undefined ? undefined : {
           network: contracts.rsk.network,
           swapContracts: mapToObject(contracts.rsk.swapContracts),
           tokens: mapToObject(contracts.rsk.tokens),
