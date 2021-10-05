@@ -11,7 +11,9 @@ tasks:
 
       mkdir ~/.boltz
       cp boltz.gitpod.conf ~/.boltz/boltz.conf
-
+    command: yarn rsk:geth
+  - command: yarn docker:regtest  
+  - command: geth --exec 'loadScript("deploy_contract_geth.js")' attach http://127.0.0.1:4444/
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 3000
