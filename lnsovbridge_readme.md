@@ -32,6 +32,8 @@ rsk:fund
 mkdir ~/.boltz
 cp boltz.gitpod.conf ~/.boltz/boltz.conf
 
+### RU
+npm run dev
 
 ### FRONTEND
 git clone https://github.com/pseudozach/boltz-frontend.git  
