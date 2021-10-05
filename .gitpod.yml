@@ -13,6 +13,7 @@ tasks:
         sudo apt-get update --assume-yes
         sudo apt-get install ethereum --assume-yes
     command: |
+      geth --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js");' attach http://127.0.0.1:4444/
       geth attach http://127.0.0.1:4444/
   - init: |
       yarn docker:regtest 
