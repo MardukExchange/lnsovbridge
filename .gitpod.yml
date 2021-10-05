@@ -16,7 +16,9 @@ tasks:
         sudo apt-get install ethereum --assume-yes
     command: |
       geth attach http://127.0.0.1:4444/
-  - init: npm install
+  - init: |
+      yarn docker:regtest 
+      npm install
     #command: npm run dev
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
