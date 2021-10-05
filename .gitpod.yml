@@ -7,7 +7,7 @@ tasks:
       sudo apt-get install ethereum --assume-yes
       
       mkdir $HOME/Downloads
-      cd $HOME/Downloads && wget https://github.com/rsksmart/rskj/releases/download/IRIS-3.0.1/rskj-core-3.0.1-IRIS-all.jar
+      wget https://github.com/rsksmart/rskj/releases/download/IRIS-3.0.1/rskj-core-3.0.1-IRIS-all.jar -P $HOME/Downloads
 
       mkdir ~/.boltz
       cp boltz.gitpod.conf ~/.boltz/boltz.conf
