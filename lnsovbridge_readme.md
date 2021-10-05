@@ -49,3 +49,11 @@ API Docs: https://docs.boltz.exchange/en/latest/
 
 ### REGTEST INFO
 https://docs.boltz.exchange/en/latest/regtest/
+
+
+IF ALL GOES WELL:
+    web3.eth.defaultAccount = eth.accounts[0]
+    loadScript("/workspace/lnsovbridge/erc20swap.js")
+    loadScript("/workspace/lnsovbridge/etherswap.js")
+
+    npm run dev
