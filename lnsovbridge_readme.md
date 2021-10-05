@@ -56,4 +56,4 @@ IF ALL GOES WELL:
     loadScript("/workspace/lnsovbridge/erc20swap.js")
     loadScript("/workspace/lnsovbridge/etherswap.js")
 
-    npm run dev
+    run `npm run dev` if it fails for first time because some service not running
