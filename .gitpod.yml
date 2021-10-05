@@ -16,8 +16,9 @@ tasks:
       geth attach http://127.0.0.1:4444/
   - init: |
       yarn docker:regtest 
+      command: docker exec -it regtest bash
+  - init: |
       npm install
-    command: docker exec -it regtest bash
     #command: npm run dev
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
