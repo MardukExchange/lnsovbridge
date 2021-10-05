@@ -325,26 +325,25 @@ class Service {
    * Gets the contract address used by the Boltz instance
    */
   public getContracts = (): {
-    ethereum: {
+    ethereum?: {
       network: Network,
       swapContracts: Map<string, string>,
       tokens: Map<string, string>,
     },
-    rsk: {
+    rsk?: {
       network: Network,
       swapContracts: Map<string, string>,
       tokens: Map<string, string>,
     },
   } => {
-    if (this.walletManager.ethereumManager === undefined) {
-      throw Errors.ETHEREUM_NOT_ENABLED();
-    }
     if (this.walletManager.rskManager === undefined) {
       throw Errors.RSK_NOT_ENABLED();
     }
 
     return {
-      ethereum: {
+      ethereum: 
+      this.walletManager.ethereumManager === undefined ? undefined : 
+      {
         network: this.walletManager.ethereumManager.network,
         tokens: this.walletManager.ethereumManager.tokenAddresses,
         swapContracts: new Map<string, string>([
@@ -352,7 +351,9 @@ class Service {
           ['ERC20Swap', this.walletManager.ethereumManager.erc20Swap.address],
         ]),
       },
-      rsk: {
+      rsk: 
+      this.walletManager.rskManager === undefined ? undefined :
+      {
         network: this.walletManager.rskManager.network,
         tokens: this.walletManager.rskManager.tokenAddresses,
         swapContracts: new Map<string, string>([
