@@ -7,7 +7,8 @@ tasks:
       mkdir ~/.boltz
       cp boltz.gitpod.conf ~/.boltz/boltz.conf
     command: yarn rsk:geth
-  - command: yarn docker:regtest  
+  - init: yarn docker:regtest
+    command: docker exec -it regtest bash
   - init: |
         sudo apt install rsync --assume-yes
         sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -15,6 +16,8 @@ tasks:
         sudo apt-get install ethereum --assume-yes
     command: |
       geth attach http://127.0.0.1:4444/
+  - init: npm install
+    command: npm run dev
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 9001
