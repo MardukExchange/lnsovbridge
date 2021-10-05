@@ -13,7 +13,7 @@ tasks:
         sudo apt-get update --assume-yes
         sudo apt-get install ethereum --assume-yes
     command: |
-      geth attach http://127.0.0.1:4444/ --exec 'loadScript("/workspace/lnsovbridge/deploy_contract_geth.js")' > output.txt
+      geth attach http://127.0.0.1:4444/
   - init: |
       yarn docker:regtest 
       npm install
