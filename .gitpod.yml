@@ -13,9 +13,9 @@ tasks:
         sudo apt-get update --assume-yes
         sudo apt-get install ethereum --assume-yes
     command: |
-      echo web3.eth.defaultAccount = eth.accounts[0]
-      echo loadScript("/workspace/lnsovbridge/etherswap.js")
-      echo loadScript("/workspace/lnsovbridge/erc20swap.js")
+      echo 'web3.eth.defaultAccount = eth.accounts[0]'
+      echo 'loadScript("/workspace/lnsovbridge/etherswap.js")'
+      echo 'loadScript("/workspace/lnsovbridge/erc20swap.js")'
       geth attach http://127.0.0.1:4444/
     # fund metamask with regtest rsk - rpc url: https://4444-scarlet-kite-mva383vt.ws-us18.gitpod.io, chainid: 33
     # eth.sendTransaction({from:eth.accounts[1], to:'0x3a240f3911634410fc73F8C5192070f482369D30', value: web3.toWei(10, "ether"), gas:21000});
