@@ -62,3 +62,6 @@ alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/
 
 eth.sendTransaction({from:eth.accounts[1], to:'0x49c55e86990557a7907DC9d23636b18EF8De2C0f', value: web3.toWei(10, "ether"), gas:21000});
  
+ lnclibtc2 listchannels | jq -r '.channels[].local_balance' | awk '{sum+=$1} END {print sum}'
+ 
+ lnclibtc2 addinvoice 100000
