@@ -35,11 +35,10 @@ tasks:
   #npm run dev
   - init: |
       git clone https://github.com/pseudozach/boltz-frontend.git /workspace/boltz-frontend
-      export GITPOD_BOLTZ_BACKEND_URL=https://9001-${GITPOD_WORKSPACE_URL:8}
+      export REACT_APP_BOLTZ_API=https://9001-${GITPOD_WORKSPACE_URL:8}
+      gp env REACT_APP_BOLTZ_API=$REACT_APP_BOLTZ_API
       cd /workspace/boltz-frontend && npm i
     command: |
-      export GITPOD_BOLTZ_BACKEND_URL=https://9001-${GITPOD_WORKSPACE_URL:8}
-      echo $GITPOD_BOLTZ_BACKEND_URL
       echo npm run start  
   # npm run start  
   # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
