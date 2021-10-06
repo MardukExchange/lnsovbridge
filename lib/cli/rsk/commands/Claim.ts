@@ -19,7 +19,7 @@ export const builder = {
 };
 
 export const handler = async (argv: Arguments<any>): Promise<void> => {
-  console.log("rsk claim: ", argv.provider, argv.signer);
+  console.log("rsk claim: ", argv, argv.provider, argv.signer);
   const signer = connectEthereum(argv.provider, argv.signer);
   const { etherSwap, erc20Swap } = getContracts(signer);
 
@@ -59,9 +59,9 @@ export const handler = async (argv: Arguments<any>): Promise<void> => {
     //   297071,
     // );
   } else {
-    console.log("rbtc claim to refundaddress: ", JSON.stringify(etherSwap));
+    console.log("rbtc claim preimagehash: ", crypto.sha256(preimage));
     const etherSwapValues = await queryEtherSwapValues(etherSwap, crypto.sha256(preimage));
-    console.log("rbtc claim to refundaddress: ", etherSwapValues.refundAddress)
+    console.log("rbtc claim to refundaddress: ", etherSwapValues)
     transaction = await etherSwap.claim(
       preimage,
       etherSwapValues.amount,

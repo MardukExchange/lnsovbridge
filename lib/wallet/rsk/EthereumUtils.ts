@@ -22,7 +22,7 @@ export const getGasPrice = async (provider: providers.Provider, gasPrice?: numbe
     return BigNumber.from(gasPrice).mul(gweiDecimals);
   }
 
-  // replacing gasnow with minumum 21000 gas manually 
+  // replacing gasnow with minumum 123 gas manually which is used in metamask
   // GasNow.latestGasPrice
-  return getBiggerBigNumber(await provider.getGasPrice(), BigNumber.from(50000).mul(gweiDecimals));
+  return getBiggerBigNumber(await provider.getGasPrice(), BigNumber.from(123).mul(gweiDecimals));
 };

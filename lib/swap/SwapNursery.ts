@@ -422,6 +422,7 @@ class SwapNursery extends EventEmitter {
         break;
 
       case CurrencyType.Rbtc:
+        this.logger.verbose(`swapnursery.425 claimrbtc with swap: ` + JSON.stringify(swap));
         await this.claimRbtc(
           this.walletManager.rskManager!.contractHandler,
           swap,
@@ -884,7 +885,7 @@ class SwapNursery extends EventEmitter {
 
 
   private claimRbtc = async (contractHandler: RskContractHandler, swap: Swap, etherSwapValues: EtherSwapValues, outgoingChannelId?: string) => {
-    this.logger.error(`claimRbtc triggered`);
+    this.logger.verbose(`claimRbtc triggered with swap, etherSwapValues` + JSON.stringify(swap) + "\n" + JSON.stringify(etherSwapValues));
     const channelCreation = await this.channelCreationRepository.getChannelCreation({
       swapId: {
         [Op.eq]: swap.id,
@@ -896,12 +897,18 @@ class SwapNursery extends EventEmitter {
       return;
     }
 
-    const contractTransaction = await contractHandler.claimEther(
-      preimage,
-      etherSwapValues.amount,
-      etherSwapValues.refundAddress,
-      etherSwapValues.timelock,
-    );
+    this.logger.debug(`claimRBTC with params ${getHexString(preimage)}, ${etherSwapValues.amount}, ${etherSwapValues.refundAddress}, ${etherSwapValues.timelock}`);
+    let contractTransaction;
+    try {
+      contractTransaction = await contractHandler.claimEther(
+        preimage,
+        etherSwapValues.amount,
+        etherSwapValues.refundAddress,
+        etherSwapValues.timelock,
+      );
+    } catch (e) {
+      this.logger.error(`claimRbtc error ${e}`);
+    }
 
     this.logger.info(`Claimed Rbtc of Swap ${swap.id} in: ${contractTransaction.hash}`);
     this.emit('claim', await this.swapRepository.setMinerFee(swap, calculateRskTransactionFee(contractTransaction)), channelCreation || undefined);

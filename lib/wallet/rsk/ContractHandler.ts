@@ -81,7 +81,7 @@ class ContractHandler {
       refundAddress,
       timelock,
       {
-        gasPrice: await getGasPrice(this.etherSwap.provider),
+        gasPrice: await getGasPrice(this.etherSwap.provider, 123),
       }
     );
   }

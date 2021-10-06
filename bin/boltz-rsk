@@ -10,6 +10,7 @@ require('yargs')
     },
     'signer': {
       describe: 'address for the JsonRpcSigner',
+      // rsk boltz signer: 0x2f5338352F551A0E11C502Ec4A6240f6A2C67d2a
       default: '0x3a240f3911634410fc73f8c5192070f482369d30',
       type: 'string',
       alias: 's',

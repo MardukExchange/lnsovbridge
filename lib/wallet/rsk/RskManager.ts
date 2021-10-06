@@ -104,7 +104,7 @@ class RskManager {
       this.checkContractVersion('ERC20Swap', this.erc20Swap, RskManager.supportedContractVersions.ERC20Swap),
     ]);
 
-    this.logger.verbose(`Using Rsk signer: ${this.address}`);
+    this.logger.verbose(`Using Rsk signer: ${this.address} on network ${this.network}`);
 
     const currentBlock = await signer.provider!.getBlockNumber();
     this.logger.error("RskManager currentBlock: "+ currentBlock);
