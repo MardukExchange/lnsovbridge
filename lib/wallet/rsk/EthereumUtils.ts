@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers';
-// import GasNow from './GasNow';
+import GasNow from './GasNow';
 import { gweiDecimals } from '../../consts/Consts';
 import { getBiggerBigNumber, getHexBuffer } from '../../Utils';
 
@@ -22,7 +22,5 @@ export const getGasPrice = async (provider: providers.Provider, gasPrice?: numbe
     return BigNumber.from(gasPrice).mul(gweiDecimals);
   }
 
-  // replacing gasnow with minumum 123 gas manually which is used in metamask
-  // GasNow.latestGasPrice
-  return getBiggerBigNumber(await provider.getGasPrice(), BigNumber.from(123).mul(gweiDecimals));
+  return getBiggerBigNumber(await provider.getGasPrice(), GasNow.latestGasPrice);
 };
