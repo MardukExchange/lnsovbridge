@@ -28,14 +28,17 @@ tasks:
     # alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
   - init: |
       npm install
-    command: npm run dev
+    command: echo npm run dev
+  #npm run dev
   - init: |
       git clone https://github.com/pseudozach/boltz-frontend.git /workspace/boltz-frontend
-      gp env GITPOD_BOLTZ_BACKEND_URL=https://9001-${GITPOD_WORKSPACE_URL:8}
-      gp env REACT_APP_BOLTZ_API=https://9001-${GITPOD_WORKSPACE_URL:8}
+      export GITPOD_BOLTZ_BACKEND_URL=https://9001-${GITPOD_WORKSPACE_URL:8}
       cd /workspace/boltz-frontend && npm i
-    command: npm run start  
-    # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
+    command: |
+      export GITPOD_BOLTZ_BACKEND_URL=https://9001-${GITPOD_WORKSPACE_URL:8}
+      echo npm run start  
+  # npm run start  
+  # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
      
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
