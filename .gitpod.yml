@@ -19,6 +19,7 @@ tasks:
       geth attach http://127.0.0.1:4444/
     # fund metamask with regtest rsk - rpc url: https://4444-scarlet-kite-mva383vt.ws-us18.gitpod.io, chainid: 33
     # eth.sendTransaction({from:eth.accounts[1], to:'0x3a240f3911634410fc73F8C5192070f482369D30', value: web3.toWei(10, "ether"), gas:21000});
+    # fund boltz rsk signer with same command as above
     # geth attach http://127.0.0.1:4444/ --jspath "/workspace/lnsovbridge" --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js");' 
     # sleep 5
     #     web3.eth.defaultAccount = eth.accounts[0]

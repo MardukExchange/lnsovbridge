@@ -73,7 +73,8 @@ class ContractHandler {
     timelock: number,
   ): Promise<ContractTransaction> => {
     this.logger.debug(`Claiming Rbtc with preimage: ${getHexString(preimage)}`);
-    this.logger.error("claim data: " + refundAddress);
+    this.logger.error("claim data: " + `${amount}, ${refundAddress}, ${timelock}`);
+    this.logger.debug(`rbtcswap.claim gasprice: ` +  await getGasPrice(this.etherSwap.provider));
     return this.etherSwap.claim(
       preimage,
       amount,

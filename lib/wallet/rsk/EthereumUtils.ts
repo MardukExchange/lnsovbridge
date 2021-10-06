@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers';
-import GasNow from './GasNow';
+// import GasNow from './GasNow';
 import { gweiDecimals } from '../../consts/Consts';
 import { getBiggerBigNumber, getHexBuffer } from '../../Utils';
 
@@ -18,8 +18,11 @@ export const parseBuffer = (input: string): Buffer => {
  */
 export const getGasPrice = async (provider: providers.Provider, gasPrice?: number): Promise<BigNumber> => {
   if (gasPrice !== undefined) {
+    console.log("rsk ethereumutils.21 gasprice undefined so returning ", BigNumber.from(gasPrice).mul(gweiDecimals));
     return BigNumber.from(gasPrice).mul(gweiDecimals);
   }
 
-  return getBiggerBigNumber(await provider.getGasPrice(), GasNow.latestGasPrice);
+  // replacing gasnow with minumum 21000 gas manually 
+  // GasNow.latestGasPrice
+  return getBiggerBigNumber(await provider.getGasPrice(), BigNumber.from(50000).mul(gweiDecimals));
 };

@@ -51,6 +51,7 @@ class LightningNursery extends EventEmitter {
       });
 
       if (!reverseSwap) {
+        this.logger.debug(`reverseswap not found for this invoice ${invoice}`);
         return;
       }
 
