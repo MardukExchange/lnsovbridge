@@ -29,12 +29,12 @@ class DataAggregator {
     const rateMap = new Map<string, number>();
 
     const queryPromises: Promise<void>[] = [];
-    console.log('dataaggregator.32');
+    // console.log('dataaggregator.32');
 
     const queryRate = async (base: string, quote: string) => {
-      console.log('dataaggregator.35');
+      // console.log('dataaggregator.35');
       const pairId = getPairId({ base, quote });
-      console.log('dataaggregator.37', pairId);
+      // console.log('dataaggregator.37', pairId);
       const rate = await this.getRate(base, quote);
 
       if (rate && !isNaN(rate)) {
@@ -45,7 +45,7 @@ class DataAggregator {
       }
     };
 
-    console.log('dataaggregator.45 ', this.pairs);
+    // console.log('dataaggregator.45 ', this.pairs);
     this.pairs.forEach(([baseAsset, quoteAsset]) => {
       queryPromises.push(queryRate(baseAsset, quoteAsset));
     });
@@ -59,7 +59,7 @@ class DataAggregator {
   private getRate = async (baseAsset: string, quoteAsset: string) => {
     const promises: Promise<number>[] = [];
 
-    console.log('dataaggregator.58 ', baseAsset, quoteAsset);
+    // console.log('dataaggregator.58 ', baseAsset, quoteAsset);
     this.exchanges.forEach(exchange => promises.push(exchange.getPrice(baseAsset, quoteAsset)));
 
     const results = await Promise.all(promises.map(promise => promise.catch(error => error)));

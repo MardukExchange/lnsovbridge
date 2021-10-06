@@ -282,6 +282,14 @@ class SwapNursery extends EventEmitter {
             );
             break;
 
+          case CurrencyType.Rbtc:
+            await this.lockupRbtc(
+              wallet,
+              lndClient!,
+              reverseSwap,
+            );
+            break;
+
           case CurrencyType.ERC20:
             this.logger.error("swapnursery reverseswap invoice.paid lockupERC20 for" + quote);
             if(quote == "SOV") {
@@ -664,6 +672,48 @@ class SwapNursery extends EventEmitter {
 
       this.ethereumNursery!.listenContractTransaction(reverseSwap, contractTransaction);
       this.logger.verbose(`Locked up ${reverseSwap.onchainAmount} Ether for Reverse Swap ${reverseSwap.id}: ${contractTransaction.hash}`);
+
+      this.emit(
+        'coins.sent',
+        await this.reverseSwapRepository.setLockupTransaction(
+          reverseSwap,
+          contractTransaction.hash,
+          calculateEthereumTransactionFee(contractTransaction),
+        ),
+        contractTransaction.hash,
+      );
+    } catch (error) {
+      await this.handleReverseSwapSendFailed(reverseSwap, wallet.symbol, lndClient, error);
+    }
+  }
+
+  private lockupRbtc = async (
+    wallet: Wallet,
+    lndClient: LndClient,
+    reverseSwap: ReverseSwap,
+  ) => {
+    try {
+      let contractTransaction: ContractTransaction;
+
+      if (reverseSwap.minerFeeOnchainAmount) {
+        contractTransaction = await this.walletManager.rskManager!.contractHandler.lockupEtherPrepayMinerfee(
+          getHexBuffer(reverseSwap.preimageHash),
+          BigNumber.from(reverseSwap.onchainAmount).mul(etherDecimals),
+          BigNumber.from(reverseSwap.minerFeeOnchainAmount).mul(etherDecimals),
+          reverseSwap.claimAddress!,
+          reverseSwap.timeoutBlockHeight,
+        );
+      } else {
+        contractTransaction = await this.walletManager.rskManager!.contractHandler.lockupEther(
+          getHexBuffer(reverseSwap.preimageHash),
+          BigNumber.from(reverseSwap.onchainAmount).mul(etherDecimals),
+          reverseSwap.claimAddress!,
+          reverseSwap.timeoutBlockHeight,
+        );
+      }
+
+      this.rskNursery!.listenContractTransaction(reverseSwap, contractTransaction);
+      this.logger.verbose(`Locked up ${reverseSwap.onchainAmount} RBTC for Reverse Swap ${reverseSwap.id}: ${contractTransaction.hash}`);
 
       this.emit(
         'coins.sent',

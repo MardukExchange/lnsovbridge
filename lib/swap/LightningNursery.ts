@@ -59,10 +59,12 @@ class LightningNursery extends EventEmitter {
         this.logger.verbose(`Hold invoice of Reverse Swap ${reverseSwap.id} was accepted`);
 
         if (reverseSwap.minerFeeInvoicePreimage === null || reverseSwap.status === SwapUpdateEvent.MinerFeePaid) {
+          // this.logger.verbose(`lightningnursery.62`);
           if (reverseSwap.minerFeeInvoicePreimage) {
+            // this.logger.verbose(`lightningnursery.64`);
             await lndClient.settleInvoice(getHexBuffer(reverseSwap.minerFeeInvoicePreimage));
           }
-
+          // this.logger.verbose(`lightningnursery.67`);
           this.emit('invoice.paid', reverseSwap);
         } else {
           this.logger.debug(`Did not send onchain coins for Reverse Swap ${reverseSwap!.id} because miner fee invoice was not paid yet`);
@@ -77,6 +79,7 @@ class LightningNursery extends EventEmitter {
         const holdInvoice = await lndClient.lookupInvoice(getHexBuffer(decodeInvoice(reverseSwap.invoice).paymentHash!));
 
         if (holdInvoice.state === Invoice.InvoiceState.ACCEPTED) {
+          this.logger.verbose(`lightningnursery.82`);
           await lndClient.settleInvoice(getHexBuffer(reverseSwap.minerFeeInvoicePreimage!));
           this.emit('invoice.paid', reverseSwap);
         }
