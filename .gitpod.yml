@@ -1,0 +1,38 @@
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - init: |
+      mkdir $HOME/Downloads
+      wget https://github.com/rsksmart/rskj/releases/download/IRIS-3.0.1/rskj-core-3.0.1-IRIS-all.jar -P $HOME/Downloads
+
+      mkdir ~/.boltz
+      cp boltz.gitpod.conf ~/.boltz/boltz.conf
+    command: yarn rsk:geth
+  - init: |
+        sudo apt install rsync --assume-yes
+        sudo add-apt-repository -y ppa:ethereum/ethereum
+        sudo apt-get update --assume-yes
+        sudo apt-get install ethereum --assume-yes
+    command: |
+      geth --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js");' attach http://127.0.0.1:4444/
+      geth attach http://127.0.0.1:4444/
+  - init: |
+      yarn docker:regtest 
+    command: >
+      docker exec -it regtest bash
+    # alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+  - init: |
+      npm install
+    command: npm run dev
+  - init: |
+      git clone https://github.com/pseudozach/boltz-frontend.git /workspace/boltz-frontend
+      cd /workspace/boltz-frontend && npm i
+    # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
+    # npm run start  
+# List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
+ports:
+  - port: 9001
+    visibility: public
+    onOpen: open-browser
+  - port: 3000
+    visibility: public
+    onOpen: open-browser
