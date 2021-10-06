@@ -8,7 +8,7 @@ import { Signer, providers, Contract, Wallet } from 'ethers';
 
 const Constants = {
   erc20TokenAddress: '0x0ae9cb70d1668a73b099c9e138dd7275846578e3',
-  rbtcSwapAddress: '0x16a6773fceae71f982e075bb7451a158c9d6bb1e',
+  rbtcSwapAddress: '0x0763acb06b937b45b22b380b5fa9909f388b42d8',
   erc20SwapAddress: '0x8539005e306b4cdab7b0d2666aef892a1b883064',
 };
 
