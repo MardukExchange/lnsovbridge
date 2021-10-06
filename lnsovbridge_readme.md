@@ -57,3 +57,5 @@ IF ALL GOES WELL:
     loadScript("/workspace/lnsovbridge/etherswap.js")
 
     run `npm run dev` if it fails for first time because some service not running
+
+alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
