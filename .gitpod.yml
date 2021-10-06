@@ -31,7 +31,9 @@ tasks:
     # alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
   - init: |
       npm install
-    command: echo npm run dev
+    command: |
+      echo regtest rsk - rpc url: https://4444-${GITPOD_WORKSPACE_URL:8}, chainid: 33
+      echo npm run dev
   #npm run dev
   - init: |
       git clone https://github.com/pseudozach/boltz-frontend.git /workspace/boltz-frontend
