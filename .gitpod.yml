@@ -25,7 +25,9 @@ tasks:
     command: npm run dev
   - init: |
       git clone https://github.com/pseudozach/boltz-frontend.git /workspace/boltz-frontend
-      cd /workspace/boltz-frontend && npm i && npm run start
+      cd /workspace/boltz-frontend && npm i
+    # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
+    # npm run start  
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 9001
