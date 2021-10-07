@@ -163,7 +163,7 @@ class RateProvider {
     // Updating rates and fees at the same time would result in a race condition
     // that could leave the fee estimations for the ERC20 tokens outdated or even
     // "null" on the very first run of this function
-    this.logger.info('rateprovider.166');
+    // this.logger.info('rateprovider.166');
     const updatedRates = await this.dataAggregator.fetchPairs();
     this.logger.info('rateprovider.168 ' + stringify(updatedRates));
     await this.updateMinerFees();

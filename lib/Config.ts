@@ -99,6 +99,9 @@ type RskConfig = {
 type ApiConfig = {
   host: string;
   port: number;
+  sslKey: string;
+  sslCert: string;
+  sslEnabled: boolean;
 };
 
 type GrpcConfig = {
@@ -212,6 +215,9 @@ class Config {
       api: {
         host: '0.0.0.0',
         port: 9001,
+        sslKey: '/root/lnsovbridge/privkey.pem',
+        sslCert: '/root/lnsovbridge/fullchain.pem',
+        sslEnabled: true,
       },
 
       grpc: {

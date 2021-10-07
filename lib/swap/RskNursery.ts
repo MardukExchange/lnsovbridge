@@ -117,7 +117,7 @@ class RskNursery extends EventEmitter {
       transactionHash,
       etherSwapValues,
     ) => {
-      this.logger.error("RskNursery listenEtherSwap eth.lockup enter");
+      this.logger.verbose("RskNursery listenEtherSwap eth.lockup enter");
       let swap = await this.swapRepository.getSwap({
         preimageHash: {
           [Op.eq]: getHexString(etherSwapValues.preimageHash),
@@ -150,7 +150,7 @@ class RskNursery extends EventEmitter {
         true,
       );
 
-      this.logger.error("rsknursery listenetherswap claimAddress, this.rskmanageraddress: " + etherSwapValues.claimAddress + ", " + this.rskManager.address + ", " + JSON.stringify(etherSwapValues));
+      this.logger.verbose("rsknursery listenetherswap claimAddress, this.rskmanageraddress: " + etherSwapValues.claimAddress + ", " + this.rskManager.address + ", " + JSON.stringify(etherSwapValues));
       if (etherSwapValues.claimAddress !== this.rskManager.address) {
         this.emit(
           'lockup.failed',
