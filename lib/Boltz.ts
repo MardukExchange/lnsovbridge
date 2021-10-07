@@ -182,7 +182,7 @@ class Boltz {
       const rescanPromises: Promise<void>[] = [];
 
       for (const chainTip of chainTips) {
-        this.logger.error("rescanpromise chaintip: " + chainTip.symbol);
+        this.logger.verbose("rescanpromise chaintip: " + chainTip.symbol);
         if (chainTip.symbol === 'ETH') {
           if (this.walletManager.ethereumManager) {
             logRescan(chainTip);

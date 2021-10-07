@@ -561,7 +561,7 @@ class SwapManager {
       const lightningCurrency = getLightningCurrency(base, quote, swap.orderSide, isReverse);
 
       if ((swap.status === SwapUpdateEvent.SwapCreated || swap.status === SwapUpdateEvent.MinerFeePaid) && isReverse) {
-        this.logger.error("swapmanager recreateFilters foreach SwapCreated chainCurrency " + chainCurrency);
+        this.logger.verbose("swapmanager recreateFilters foreach SwapCreated chainCurrency " + chainCurrency);
         const reverseSwap = swap as ReverseSwap;
 
         const { lndClient } = this.currencies.get(lightningCurrency)!;
@@ -573,7 +573,7 @@ class SwapManager {
         lndClient!.subscribeSingleInvoice(getHexBuffer(decodeInvoice(reverseSwap.invoice).paymentHash!));
 
       } else if ((swap.status === SwapUpdateEvent.TransactionMempool || swap.status === SwapUpdateEvent.TransactionConfirmed) && isReverse) {
-        this.logger.error("swapmanager recreateFilters foreach TransactionConfirmed chainCurrency " + chainCurrency);
+        this.logger.verbose("swapmanager recreateFilters foreach TransactionConfirmed chainCurrency " + chainCurrency);
         const { chainClient } = this.currencies.get(chainCurrency)!;
 
         if (chainClient) {
@@ -587,7 +587,7 @@ class SwapManager {
           }
         }
       } else {
-        this.logger.error("swapmanager recreateFilters foreach else chainCurrency " + chainCurrency);
+        this.logger.verbose("swapmanager recreateFilters foreach else chainCurrency " + chainCurrency);
         const { chainClient } = this.currencies.get(chainCurrency)!;
 
         if (chainClient) {

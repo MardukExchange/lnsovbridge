@@ -46,7 +46,7 @@ class GrpcServer {
       }],
       false,
     );
-    this.logger.error("grpc binding to: " + host + ", " + port);
+    this.logger.info("grpc binding to: " + host + ", " + port);
     const bindCode = this.server.bind(`${host}:${port}`, serverCert);
 
     if (bindCode !== port) {

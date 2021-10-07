@@ -153,7 +153,7 @@ class InjectedProvider implements providers.Provider {
   }
 
   public getLogs = (filter: providers.Filter): Promise<Array<providers.Log>> => {
-    this.logger.error("rsk injectedprovider getLogs " + JSON.stringify(filter));
+    this.logger.verbose("rsk injectedprovider getLogs " + JSON.stringify(filter));
     return this.forwardMethod('getLogs', filter);
   }
 
