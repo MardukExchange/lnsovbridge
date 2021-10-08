@@ -1,7 +1,7 @@
 # LN-SOV Bridge
 
-LN-SOV Bridge aims to connect SOVRYN and RSK to Lightning Network.  
-It uses submarine-swaps to enable trustless swaps between RBTC on RSK and Bitcoin on Lightning Network. Swaps are non-custodial and the exchange is KYC-free.
+* LN-SOV Bridge aims to connect SOVRYN and RSK to Lightning Network.  
+* It uses submarine-swaps to enable trustless swaps between RBTC on RSK and Bitcoin on Lightning Network. Swaps are non-custodial and the exchange is KYC-free.
 
 Testnet version is deployed at: https://lnsov.vercel.app
 
@@ -23,12 +23,12 @@ Testnet version is deployed at: https://lnsov.vercel.app
 * Deploy [frontend](https://github.com/pseudozach/boltz-frontend) and visit `http:localhost:3000` to see the GUI.
 
 ## support
-For bugs/feature requests: Open an issue on this repo.  
-For support: Contact pseudozach and grmkris on Sovryn Discord.
+* For bugs/feature requests: Open an issue on this repo.  
+* For support: Contact pseudozach#1633 and Kris#8171 on Sovryn Discord.
 
 ## acknowledgement
-This work is supported by a grant from [SOVRYN](https://sovryn.app).
-LN-SOV Bridge is a fork of [Boltz](https://github.com/BoltzExchange/boltz-backend).
+* This work is supported by a grant from [SOVRYN](https://sovryn.app).  
+* LN-SOV Bridge is a fork of [Boltz](https://github.com/BoltzExchange/boltz-backend).
 
 ## documentation
-API documentation: [Read the Docs](https://docs.boltz.exchange/en/latest/)
+* API documentation: [Read the Docs](https://docs.boltz.exchange/en/latest/)
