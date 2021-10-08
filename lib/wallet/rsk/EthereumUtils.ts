@@ -18,7 +18,7 @@ export const parseBuffer = (input: string): Buffer => {
  */
 export const getGasPrice = async (provider: providers.Provider, gasPrice?: number): Promise<BigNumber> => {
   if (gasPrice !== undefined) {
-    console.log("rsk ethereumutils.21 gasprice undefined so returning ", BigNumber.from(gasPrice).mul(gweiDecimals));
+    console.log("rsk ethereumutils.21 gasprice: ", BigNumber.from(gasPrice).mul(gweiDecimals));
     return BigNumber.from(gasPrice).mul(gweiDecimals);
   }
 
