@@ -75,13 +75,15 @@ class ContractHandler {
     this.logger.debug(`Claiming Rbtc with preimage: ${getHexString(preimage)}`);
     this.logger.debug("claim data: " + `${amount}, ${refundAddress}, ${timelock}`);
     this.logger.debug(`rbtcswap.claim gasprice: ` +  await getGasPrice(this.etherSwap.provider));
+    // on regtest we used 123 which leads to Gas Price 0.000000123 RBTC
+    // gasPrice: await getGasPrice(this.etherSwap.provider, 123), -> this is removed on testnet as it leads to high fees
     return this.etherSwap.claim(
       preimage,
       amount,
       refundAddress,
       timelock,
       {
-        gasPrice: await getGasPrice(this.etherSwap.provider, 123),
+        gasPrice: await getGasPrice(this.etherSwap.provider),
       }
     );
   }
