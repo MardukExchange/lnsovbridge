@@ -1,19 +1,34 @@
-## This is a fork of [boltz-backend](https://github.com/BoltzExchange/boltz-backend) for SOV hackathon.
-Boltz backend is modified to work with RSK and tested to allow Lightning Network submarine and reverse submarine swaps between BTC, RBTC and SOV. 
+# LN-SOV Bridge
 
-* Presentation: https://github.com/pseudozach/lnsovbridge/blob/main/LNSOVBridge.pdf
-* RSK -> LN demo: https://www.youtube.com/watch?v=fMtGL8A4Ed8
-* SOV -> LN demo: https://www.youtube.com/watch?v=SlIjtldXBIs  
-* [Frontend code](https://github.com/pseudozach/boltz-frontend)
-# Boltz
+LN-SOV Bridge aims to connect SOVRYN and RSK to Lightning Network.  
+It uses submarine-swaps to enable trustless swaps between RBTC on RSK and Bitcoin on Lightning Network. Swaps are non-custodial and the exchange is KYC-free.
 
-[![CI](https://github.com/BoltzExchange/boltz-backend/workflows/CI/badge.svg?branch=master)](https://github.com/BoltzExchange/boltz-backend/actions)
-[![Documentation Status](https://readthedocs.org/projects/boltz-backend/badge/?version=latest)](https://docs.boltz.exchange)
-[![Discord](https://img.shields.io/discord/547454030801272832.svg)](https://discordapp.com/invite/QBvZGcW)
-[![Version](https://img.shields.io/npm/v/boltz-backend.svg)](https://www.npmjs.com/package/boltz-backend)
+Testnet version is deployed at: https://lnsov.vercel.app
 
-Boltz is an open-source exchange solution for everyone. The goal of Boltz is to allow tech entrepreneurs as well as technically capable individuals to operate a digital asset exchange without requiring their users to trust them.
+## install
+* Clone the repo, install requirements and compile  
+`git clone https://github.com/pseudozach/lnsovbridge.git`  
+`cd lnsovbridge && npm i && npm run compile`  
+* Start btc & lnd  
+`npm run docker:regtest`
+* Start rsk  
+`npm run rsk:geth`
+* Fund a regtest account and deploy latest contracts  
+* Copy boltz.conf to ~/.boltz/boltz.conf and modify as needed  
+* Start the app  
+`npm run start`
 
-## Documentation
+## use
+* Visit `http://localhost:9001/getpairs` to see the API.
+* Deploy [frontend](https://github.com/pseudozach/boltz-frontend) and visit `http:localhost:3000` to see the GUI.
 
-All of the documentation of Boltz can be found on [Read the Docs](https://docs.boltz.exchange/en/latest/)
+## support
+For bugs/feature requests: Open an issue on this repo.  
+For support: Contact pseudozach and grmkris on Sovryn Discord.
+
+## acknowledgement
+This work is supported by a grant from [SOVRYN](https://sovryn.app).
+LN-SOV Bridge is a fork of [Boltz](https://github.com/BoltzExchange/boltz-backend).
+
+## documentation
+API documentation: [Read the Docs](https://docs.boltz.exchange/en/latest/)
