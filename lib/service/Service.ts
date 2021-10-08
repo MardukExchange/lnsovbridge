@@ -1142,7 +1142,7 @@ class Service {
 
     if (limits) {
       if (Math.floor(amount) > limits.maximal) throw Errors.EXCEED_MAXIMAL_AMOUNT(amount, limits.maximal);
-      if (Math.ceil(amount) < limits.minimal) throw Errors.BENEATH_MINIMAL_AMOUNT(amount, limits.minimal);
+      if (Math.ceil(amount) < (limits.minimal*9/10)) throw Errors.BENEATH_MINIMAL_AMOUNT(amount, limits.minimal);
     } else {
       throw Errors.PAIR_NOT_FOUND(pairId);
     }

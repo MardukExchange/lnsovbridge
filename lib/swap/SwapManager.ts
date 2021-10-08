@@ -652,7 +652,7 @@ class SwapManager {
   }
 
   private getLockupContractAddress = (type: CurrencyType, quoteCurrency: string): string => {
-    this.logger.error("getLockupContractAddress CurrencyType: " + type)
+    this.logger.verbose("getLockupContractAddress CurrencyType: " + type)
     const ethereumManager = this.walletManager.ethereumManager!;
     const rskManager = this.walletManager.rskManager!;
 

@@ -523,7 +523,7 @@ class SwapNursery extends EventEmitter {
 
     // Swap events
     rskNursery.on('swap.expired', async (swap) => {
-      this.logger.error("rskNursery swap.expired ");
+      this.logger.verbose("rskNursery swap.expired ");
       await this.lock.acquire(SwapNursery.swapLock, async () => {
         await this.expireSwap(swap);
       });
@@ -536,7 +536,7 @@ class SwapNursery extends EventEmitter {
     });
 
     rskNursery.on('eth.lockup', async (swap, transactionHash, etherSwapValues) => {
-      this.logger.error("listenRskNursery eth.lockup: " + transactionHash);
+      this.logger.verbose("listenRskNursery eth.lockup txhash: " + transactionHash);
       await this.lock.acquire(SwapNursery.swapLock, async () => {
         this.emit('transaction', swap, transactionHash, true, false);
 
@@ -583,14 +583,14 @@ class SwapNursery extends EventEmitter {
     });
 
     rskNursery.on('lockup.confirmed', async (reverseSwap, transactionHash) => {
-      this.logger.error("listenRskNursery lockup.confirmed: " + transactionHash);
+      this.logger.verbose("listenRskNursery lockup.confirmed: " + transactionHash);
       await this.lock.acquire(SwapNursery.reverseSwapLock, async () => {
         this.emit('transaction', reverseSwap, transactionHash, true, true);
       });
     });
 
     rskNursery.on('claim', async (reverseSwap, preimage) => {
-      this.logger.error("listenRskNursery claim: ");
+      this.logger.verbose("listenRskNursery claim: "+ preimage);
       await this.lock.acquire(SwapNursery.reverseSwapLock, async () => {
         await this.settleReverseSwapInvoice(reverseSwap, preimage);
       });
