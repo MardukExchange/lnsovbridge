@@ -3,8 +3,8 @@ Boltz backend is modified to work with RSK and tested to allow Lightning Network
 
 * Presentation: https://github.com/pseudozach/lnsovbridge/blob/main/LNSOVBridge.pdf
 * RSK -> LN demo: https://www.youtube.com/watch?v=fMtGL8A4Ed8
-* SOV -> LN demo: https://www.youtube.com/watch?v=SlIjtldXBIs
-*[Frontend code](https://github.com/pseudozach/boltz-frontend)
+* SOV -> LN demo: https://www.youtube.com/watch?v=SlIjtldXBIs  
+* [Frontend code](https://github.com/pseudozach/boltz-frontend)
 # Boltz
 
 [![CI](https://github.com/BoltzExchange/boltz-backend/workflows/CI/badge.svg?branch=master)](https://github.com/BoltzExchange/boltz-backend/actions)
