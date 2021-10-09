@@ -956,12 +956,12 @@ class SwapNursery extends EventEmitter {
         etherSwapValues.refundAddress,
         etherSwapValues.timelock,
       );
-    } catch (e) {
-      this.logger.error(`claimRbtc error ${e}`);
-    }
 
-    this.logger.info(`Claimed Rbtc of Swap ${swap.id} in: ${contractTransaction.hash}`);
-    this.emit('claim', await this.swapRepository.setMinerFee(swap, calculateRskTransactionFee(contractTransaction)), channelCreation || undefined);
+      this.logger.info(`Claimed Rbtc of Swap ${swap.id} in: ${contractTransaction.hash}`);
+      this.emit('claim', await this.swapRepository.setMinerFee(swap, calculateRskTransactionFee(contractTransaction)), channelCreation || undefined);
+    } catch (e) {
+      this.logger.error(`claimRbtc error ${e}`);    
+    }
   }
 
   private claimRskERC20 = async (contractHandler: RskContractHandler, swap: Swap, erc20SwapValues: ERC20SwapValues, outgoingChannelId?: string) => {
