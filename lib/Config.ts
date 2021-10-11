@@ -217,7 +217,7 @@ class Config {
         port: 9001,
         sslKey: '/root/lnsovbridge/privkey.pem',
         sslCert: '/root/lnsovbridge/fullchain.pem',
-        sslEnabled: true,
+        sslEnabled: false,
       },
 
       grpc: {

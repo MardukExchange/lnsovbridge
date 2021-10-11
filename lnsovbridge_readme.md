@@ -60,8 +60,17 @@ IF ALL GOES WELL:
 
 alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
 
-eth.sendTransaction({from:eth.accounts[1], to:'0x49c55e86990557a7907DC9d23636b18EF8De2C0f', value: web3.toWei(10, "ether"), gas:21000});
+eth.sendTransaction({from:eth.accounts[1], to:'0x0763acb06b937b45b22b380b5fa9909f388b42d8', value: web3.toWei(10, "ether"), gas:21000});
  
  lnclibtc2 listchannels | jq -r '.channels[].local_balance' | awk '{sum+=$1} END {print sum}'
  
  lnclibtc2 addinvoice 100000
+
+
+ eth.sendTransaction({from:eth.accounts[1], to:'0x7e0B3bC254e9DeB70A690223d11107D889F1948c', value: web3.toWei(10, "ether"), gas:21000});
+
+
+
+
+
+ 0x7e0B3bC254e9DeB70A690223d11107D889F1948c

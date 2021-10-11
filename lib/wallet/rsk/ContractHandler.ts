@@ -73,7 +73,7 @@ class ContractHandler {
     timelock: number,
   ): Promise<ContractTransaction> => {
     this.logger.debug(`Claiming Rbtc with preimage: ${getHexString(preimage)}, ${amount}, ${refundAddress}, ${timelock}`);
-    const gasprice = await getGasPrice(this.etherSwap.provider);
+    const gasprice = await getGasPrice(this.etherSwap.provider, 123);
     this.logger.debug(`rbtcswap.claim gasprice: ${gasprice}`);
     // on regtest we used 123 which leads to Gas Price 0.000000123 RBTC
     // gasPrice: await getGasPrice(this.etherSwap.provider, 123), -> this is removed on testnet as it leads to high fees
