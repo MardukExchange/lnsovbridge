@@ -32,7 +32,7 @@ class Api {
   }
 
   public init = async (): Promise<void> => {
-    // this.logger.info(`API server init1`);
+    // this.logger.info(`API server init ` + JSON.stringify(this.config));
     await this.controller.init();
 
     await new Promise<void>((resolve) => {
@@ -43,12 +43,12 @@ class Api {
         };
         // console.log("sslenabled ", this.config.sslEnabled);
         https.createServer(options, this.app).listen(this.config.port, this.config.host, () => {
-          this.logger.info(`API server listening on: ${this.config.host}:${this.config.port}`);
+          this.logger.info(`https API server listening on: ${this.config.host}:${this.config.port}`);
           resolve();
         });
       } else {
         this.app.listen(this.config.port, this.config.host, () => {
-          this.logger.info(`API server listening on: ${this.config.host}:${this.config.port}`);
+          this.logger.info(`http API server listening on: ${this.config.host}:${this.config.port}`);
           resolve();
         });
       }
