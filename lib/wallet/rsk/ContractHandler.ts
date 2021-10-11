@@ -88,6 +88,7 @@ class ContractHandler {
       timelock,
       {
         gasPrice: gasprice,
+        gasLimit: 100000
       }
     );
   }
