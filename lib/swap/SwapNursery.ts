@@ -562,7 +562,7 @@ class SwapNursery extends EventEmitter {
 
     // Reverse Swap events
     rskNursery.on('reverseSwap.expired', async (reverseSwap) => {
-      this.logger.error("rskNursery reverseSwap.expired ");
+      // this.logger.info("rskNursery reverseSwap.expired ");
       await this.lock.acquire(SwapNursery.reverseSwapLock, async () => {
         await this.expireReverseSwap(reverseSwap);
       });
@@ -1154,7 +1154,7 @@ class SwapNursery extends EventEmitter {
     const lightningCurrency = this.currencies.get(lightningSymbol)!;
 
     if (reverseSwap.transactionId) {
-      this.logger.error("swapnursery reverseSwap.transactionId" + chainCurrency.type + ", " + chainSymbol);
+      // this.logger.verbose("swapnursery reverseSwap.transactionId " + chainCurrency.type + ", " + chainSymbol);
       switch (chainCurrency.type) {
         case CurrencyType.BitcoinLike:
           await this.refundUtxo(reverseSwap, chainSymbol);
