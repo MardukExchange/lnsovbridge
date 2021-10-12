@@ -26,8 +26,8 @@ class ContractHandler {
     claimAddress: string,
     timeLock: number,
   ): Promise<ContractTransaction> => {
-    this.logger.debug(`Locking ${amount} Rbtc with preimagehash, amount, claimaddress, timelock: ${getHexString(preimageHash)}, ${amount}, ${claimAddress}, ${timeLock}`);
-    return this.etherSwap.lock(preimageHash, claimAddress, timeLock, {
+    this.logger.debug(`Locking ${amount} Rbtc with preimagehash, amount, claimaddress, timelock: ${getHexString(preimageHash)}, ${amount}, ${claimAddress.toLowerCase()}, ${timeLock}`);
+    return this.etherSwap.lock(preimageHash, claimAddress.toLowerCase(), timeLock, {
       value: amount,
       gasPrice: await getGasPrice(this.etherSwap.provider),
     });
