@@ -43,6 +43,15 @@ tasks:
       cd /workspace/boltz-frontend && npm i
     command: |
       echo npm run start  
+  # btc-rbtc swapper
+  - init: |
+      git clone https://github.com/grmkris/btc-rbtc-swapper /workspace/btc-rbtc-swapper
+      cd /workspace/btc-rbtc-swapper
+    command: |
+      echo hello-world
+
+
+      
   # npm run start  
   # update frontend .env with current gitpod name e.g. REACT_APP_BOLTZ_API=https://9001-fuchsia-termite-wsc9g47t.ws-us18.gitpod.io/
      
