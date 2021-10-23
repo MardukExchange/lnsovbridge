@@ -95,6 +95,7 @@ class RskManager {
 
     const signer = EthersWallet.fromMnemonic(mnemonic).connect(this.provider);
     this.address = await signer.getAddress();
+    this.logger.info(`RskManager.98 RSK signer ${this.address}`);
 
     this.etherSwap = this.etherSwap.connect(signer);
     this.erc20Swap = this.erc20Swap.connect(signer);
