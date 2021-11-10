@@ -569,6 +569,7 @@ class SwapNursery extends EventEmitter {
     });
 
     rskNursery.on('lockup.failedToSend', async (reverseSwap: ReverseSwap, reason ) => {
+      this.logger.error('swapnursery.572 lockup.failedToSend ' + reason);
       await this.lock.acquire(SwapNursery.reverseSwapLock, async () => {
         const { base, quote } = splitPairId(reverseSwap.pair);
         const chainSymbol = getChainCurrency(base, quote, reverseSwap.orderSide, true);
@@ -710,6 +711,7 @@ class SwapNursery extends EventEmitter {
           reverseSwap.claimAddress!,
           reverseSwap.timeoutBlockHeight,
         );
+        this.logger.verbose('SwapNursery.714 lockup contractTransaction ' + JSON.stringify(contractTransaction));
       }
 
       this.rskNursery!.listenContractTransaction(reverseSwap, contractTransaction);
@@ -1099,7 +1101,7 @@ class SwapNursery extends EventEmitter {
   private handleReverseSwapSendFailed = async (reverseSwap: ReverseSwap, chainSymbol: string, lndClient: LndClient, error: unknown) => {
     await lndClient.cancelInvoice(getHexBuffer(reverseSwap.preimageHash));
 
-    this.logger.warn(`Failed to lockup ${reverseSwap.onchainAmount} ${chainSymbol} for Reverse Swap ${reverseSwap.id}: ${formatError(error)}`);
+    this.logger.warn(`Failed to lockup ${reverseSwap.onchainAmount} ${chainSymbol} for Reverse Swap ${reverseSwap.id}: ${formatError(error)} ful error:` + JSON.stringify(error));
     this.emit('coins.failedToSend', await this.reverseSwapRepository.setReverseSwapStatus(
       reverseSwap,
       SwapUpdateEvent.TransactionFailed,

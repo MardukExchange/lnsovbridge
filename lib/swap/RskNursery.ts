@@ -97,6 +97,7 @@ class RskNursery extends EventEmitter {
   }
 
   public listenContractTransaction = (reverseSwap: ReverseSwap, transaction: ContractTransaction): void => {
+    // this.logger.verbose('rsknurserry.99 listenContractTransaction ' + JSON.stringify(transaction));
     transaction.wait(1).then(async () => {
       this.emit(
         'lockup.confirmed',
@@ -117,7 +118,7 @@ class RskNursery extends EventEmitter {
       transactionHash,
       etherSwapValues,
     ) => {
-      this.logger.verbose("RskNursery listenEtherSwap eth.lockup enter");
+      // this.logger.verbose("RskNursery listenEtherSwap eth.lockup enter");
       let swap = await this.swapRepository.getSwap({
         preimageHash: {
           [Op.eq]: getHexString(etherSwapValues.preimageHash),
