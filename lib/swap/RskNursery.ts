@@ -256,7 +256,8 @@ class RskNursery extends EventEmitter {
         return;
       }
 
-      if (erc20SwapValues.tokenAddress !== erc20Wallet.getTokenAddress()) {
+      // this.logger.verbose('rsknursery.259 comparing ' + erc20SwapValues.tokenAddress + ', ' + erc20Wallet.getTokenAddress());
+      if (erc20SwapValues.tokenAddress.toLowerCase() !== erc20Wallet.getTokenAddress()) {
         this.emit(
           'lockup.failed',
           swap,
