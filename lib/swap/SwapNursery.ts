@@ -1173,7 +1173,10 @@ class SwapNursery extends EventEmitter {
           } else {
             await this.refundERC20(reverseSwap, chainSymbol);
           }
-          
+          break;
+
+        case CurrencyType.Rbtc:
+          await this.refundRbtc(reverseSwap);
           break;
       }
     } else {
@@ -1281,7 +1284,7 @@ class SwapNursery extends EventEmitter {
   }
 
   private rrefundERC20 = async (reverseSwap: ReverseSwap, chainSymbol: string) => {
-    this.logger.error("rsk refundERC20");
+    this.logger.debug("rsk refundERC20");
     const ethereumManager = this.walletManager.rskManager!;
     const walletProvider = this.walletManager.wallets.get(chainSymbol)!.walletProvider as ERC20WalletProvider;
 
@@ -1305,6 +1308,31 @@ class SwapNursery extends EventEmitter {
       contractTransaction.hash,
     );
   }  
+
+  private refundRbtc = async (reverseSwap: ReverseSwap) => {
+    const ethereumManager = this.walletManager.rskManager!;
+
+    this.logger.debug("rsk refundRbtc");
+    const etherSwapValues = await queryEtherSwapValuesFromLock(ethereumManager.etherSwap, reverseSwap.transactionId!);
+    const contractTransaction = await ethereumManager.contractHandler.refundEther(
+      getHexBuffer(reverseSwap.preimageHash),
+      etherSwapValues.amount,
+      etherSwapValues.claimAddress,
+      etherSwapValues.timelock,
+    );
+
+    this.logger.info(`Refunded RBTC of Reverse Swap ${reverseSwap.id} in: ${contractTransaction.hash}`);
+    this.emit(
+      'refund',
+      await this.reverseSwapRepository.setTransactionRefunded(
+        reverseSwap,
+        calculateRskTransactionFee(contractTransaction),
+        Errors.REFUNDED_COINS(reverseSwap.transactionId!).message,
+      ),
+      contractTransaction.hash,
+    );
+  }
+
 }
 
 export default SwapNursery;
