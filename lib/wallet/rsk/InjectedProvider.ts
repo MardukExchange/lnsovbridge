@@ -4,7 +4,7 @@ import Errors from './Errors';
 import Logger from '../../Logger';
 import { formatError, stringify } from '../../Utils';
 import { RskConfig, RskProviderServiceConfig } from '../../Config';
-import PendingEthereumTransactionRepository from '../../db/PendingEthereumTransactionRepository';
+// import PendingEthereumTransactionRepository from '../../db/PendingEthereumTransactionRepository';
 
 enum EthProviderService {
   Infura = 'Infura',
@@ -20,7 +20,7 @@ class InjectedProvider implements providers.Provider {
   public _isProvider = true;
 
   private providers = new Map<string, providers.WebSocketProvider>();
-  private pendingEthereumTransactionRepository = new PendingEthereumTransactionRepository();
+  // private pendingEthereumTransactionRepository = new PendingEthereumTransactionRepository();
 
   private network!: providers.Network;
 
@@ -195,11 +195,13 @@ class InjectedProvider implements providers.Provider {
   public sendTransaction = async (signedTransaction: string): Promise<providers.TransactionResponse> => {
     const transaction = utils.parseTransaction(signedTransaction);
 
-    this.logger.silly(`Sending Rbtc transaction: ${transaction.hash}`);
-    await this.pendingEthereumTransactionRepository.addTransaction(
-      transaction.hash!,
-      transaction.nonce,
-    );
+    this.logger.verbose(`Sending Rbtc transaction: ${transaction.hash}`);
+    // TODO: Check if this is really needed. Disabling because it's causing issue:
+    // https://github.com/pseudozach/lnsovbridge/issues/3
+    // await this.pendingEthereumTransactionRepository.addTransaction(
+    //   transaction.hash!,
+    //   transaction.nonce,
+    // );
 
     const promises: Promise<providers.TransactionResponse>[] = [];
 
