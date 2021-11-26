@@ -107,6 +107,7 @@ class ContractHandler {
       timelock,
       {
         gasPrice: await getGasPrice(this.etherSwap.provider),
+        gasLimit: 100000,
       }
     );
   }

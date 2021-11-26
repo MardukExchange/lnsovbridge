@@ -1,9 +1,10 @@
 import { Arguments } from 'yargs';
-import { ContractTransaction } from 'ethers';
+import { BigNumber, ContractTransaction } from 'ethers';
 import { getHexBuffer } from '../../../Utils';
+// import { etherDecimals } from '../../../consts/Consts';
 import BuilderComponents from '../../BuilderComponents';
 import { connectEthereum, getContracts } from '../EthereumUtils';
-import { queryERC20SwapValues, queryEtherSwapValues } from '../../../wallet/rsk/ContractUtils';
+// import { queryERC20SwapValues, queryEtherSwapValues } from '../../../wallet/rsk/ContractUtils';
 
 export const command = 'refund <preimageHash> [token]';
 
@@ -20,28 +21,47 @@ export const builder = {
 export const handler = async (argv: Arguments<any>): Promise<void> => {
   const signer = connectEthereum(argv.provider, argv.signer);
   const { etherSwap, erc20Swap } = getContracts(signer);
+  console.log('signer, etherSwap ', signer, etherSwap.address);
 
   const preimageHash = getHexBuffer(argv.preimageHash);
+  let allargs = process.argv.slice(2);
+  let rbtcamount:any = allargs[2];
+  const amount = BigNumber.from(rbtcamount*10**18);
+  // const amount = allargs[2];
+  const claimAddress = allargs[3];
+  const timelock = allargs[4];
+  console.log('preimageHash: ', preimageHash, amount, claimAddress, timelock);
 
   let transaction: ContractTransaction;
 
   if (argv.token) {
-    const erc20SwapValues = await queryERC20SwapValues(erc20Swap, preimageHash);
+    // const erc20SwapValues = await queryERC20SwapValues(erc20Swap, preimageHash);
+    const tokenAddress = allargs[5];
     transaction = await erc20Swap.refund(
       preimageHash,
-      erc20SwapValues.amount,
-      erc20SwapValues.tokenAddress,
-      erc20SwapValues.claimAddress,
-      erc20SwapValues.timelock,
+      amount,
+      tokenAddress,
+      claimAddress,
+      timelock,
+      // erc20SwapValues.amount,
+      // erc20SwapValues.tokenAddress,
+      // erc20SwapValues.claimAddress,
+      // erc20SwapValues.timelock,
     );
+    console.log('erc20Swap refund tx: ', transaction);
   } else {
-    const etherSwapValues = await queryEtherSwapValues(etherSwap, preimageHash);
+    // const etherSwapValues = await queryEtherSwapValues(etherSwap, preimageHash);
+    // console.log('etherSwapValues ', etherSwapValues);
     transaction = await etherSwap.refund(
       preimageHash,
-      etherSwapValues.amount,
-      etherSwapValues.claimAddress,
-      etherSwapValues.timelock,
+      amount,
+      claimAddress,
+      timelock,
+      // etherSwapValues.amount,
+      // etherSwapValues.claimAddress,
+      // etherSwapValues.timelock,
     );
+    console.log('rbtcswap refund tx: ', transaction);
   }
 
   await transaction.wait(1);

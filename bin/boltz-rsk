@@ -12,12 +12,12 @@ require('yargs')
       describe: 'address for the JsonRpcSigner',
       // rsk boltz signer: 0x2f5338352F551A0E11C502Ec4A6240f6A2C67d2a 0xb316383b46e22A7447eCe3E458637363E836Bd3b 
       // metamask 0x3a240f3911634410fc73f8c5192070f482369d30 
-      default: '0xb316383b46e22a7447ece3e458637363e836bd3b',
+      default: '0xf20123853941cde094b4840f95afeec2f2b36df0', // mainnet signer
       type: 'string',
       alias: 's',
     },
   })
   .commandDir('../dist/lib/cli/rsk/commands/')
-  .demandCommand(1, '')
-  .strict()
+  // .demandCommand(1, '')
+  // .strict()
   .argv;
