@@ -110,7 +110,7 @@ class TimeoutDeltaProvider {
    * If the block time for the symbol is not hardcoded, it is assumed that the symbol belongs to an ERC20 token
    */
   private static getBlockTime = (symbol: string): number => {
-    return TimeoutDeltaProvider.blockTimes.get(symbol) || TimeoutDeltaProvider.blockTimes.get('ETH')!;
+    return TimeoutDeltaProvider.blockTimes.get(symbol) || TimeoutDeltaProvider.blockTimes.get('RBTC')!;
   }
 }
 

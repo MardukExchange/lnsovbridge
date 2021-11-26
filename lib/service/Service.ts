@@ -621,6 +621,7 @@ class Service {
     }
 
     const timeoutBlockDelta = this.timeoutDeltaProvider.getTimeout(args.pairId, orderSide, false);
+    this.logger.debug(`timeoutBlockDelta ${timeoutBlockDelta}`);
 
     const {
       id,
@@ -944,18 +945,23 @@ class Service {
     }
 
     const onchainTimeoutBlockDelta = this.timeoutDeltaProvider.getTimeout(args.pairId, side, true);
+    
 
     let lightningTimeoutBlockDelta = TimeoutDeltaProvider.convertBlocks(
       sending,
       receiving,
       onchainTimeoutBlockDelta,
     );
+    this.logger.debug(`onchainTimeoutBlockDelta, lightningTimeoutBlockDelta ${onchainTimeoutBlockDelta}, ${lightningTimeoutBlockDelta}`);
 
     // Add 3 blocks to the delta for same currency swaps and 10% for cross chain ones as buffer
     // lightningTimeoutBlockDelta += sending === receiving ? 3 : Math.ceil(lightningTimeoutBlockDelta * 0.1);
 
     // we need more buffer - invoices not cancelling (swaps not expiring) which leads to channel force close!
-    lightningTimeoutBlockDelta += sending === receiving ? 3 : Math.ceil(lightningTimeoutBlockDelta * 0.25);
+    // we need even more buffer because rsk blocks are late %16 and bitcoin blocks are early %16
+    // when timeoutDelta = 180mins ~18 blocks this leads to cltv expiry = 23 which arrives within 150minutes, not enough!
+    // timeoutDelta = 1440mins ~144 blocks => cltv expiry = 195 blocks - monitoring...
+    lightningTimeoutBlockDelta += sending === receiving ? 3 : Math.ceil(lightningTimeoutBlockDelta * 0.35);
     this.logger.verbose(`service.959 lightningTimeoutBlockDelta ${lightningTimeoutBlockDelta}`);
 
     const rate = getRate(pairRate, side, true);
