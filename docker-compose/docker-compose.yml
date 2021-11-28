@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  lnsovbridge_api:
+    image: kristjangrm/lnsovbridge:latest
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./boltz/:/root/.boltz/
+  lnsovbridge_frontend:
+    image: kristjangrm/lnsovbridge_fe:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/.env:/usr/src/app/.env
+    depends_on:
+      - lnsovbridge_api
+    
