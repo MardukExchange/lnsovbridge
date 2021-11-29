@@ -1,4 +1,4 @@
-# LN-SOV Bridge
+# LN-SOV Bridge 
 
 * LN-SOV Bridge aims to connect SOVRYN and RSK to Lightning Network.  
 * It uses submarine-swaps to enable trustless swaps between RBTC on RSK and Bitcoin on Lightning Network. Swaps are non-custodial and the exchange is KYC-free.
