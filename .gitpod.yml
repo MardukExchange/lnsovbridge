@@ -8,6 +8,14 @@ tasks:
       cp boltz.gitpod.conf ~/.boltz/boltz.conf
       echo "agree color smart member eagle air march always tornado curious endless wise" > ~/.boltz/seed.dat
     command: yarn rsk:geth
+  # - init: |
+  #     cd ~
+  #     git clone https://github.com/rsksmart/artifacts.git
+  #     cd /home/gitpod/artifacts/Dockerfiles/RSK-Node
+  #     docker build -t rskregtest -f Dockerfile.RegTest .
+  #     docker run -d --name regtest-node-01  -p 4444:4444 -p 30305:30305 rskregtest
+  #   command: |
+  #     echo 'docker rsk should be running - tried this to get around 4444 reachability issue'
   - init: |
         sudo apt install rsync --assume-yes
         sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -35,9 +43,9 @@ tasks:
   - init: |
       yarn docker:regtest 
     command: >
-      docker exec -it regtest bash
       alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
       echo 'lnclibtc2 command is ready'
+    # docker exec -it regtest bash
   - init: |
       npm install
     command: |
