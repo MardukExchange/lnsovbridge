@@ -36,7 +36,8 @@ tasks:
       yarn docker:regtest 
     command: >
       docker exec -it regtest bash
-    # alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      echo 'lnclibtc2 command is ready'
   - init: |
       npm install
     command: |
@@ -68,5 +69,8 @@ ports:
     visibility: public
     onOpen: open-browser
   - port: 3000
+    visibility: public
+    onOpen: open-browser
+  - port: 4444
     visibility: public
     onOpen: open-browser
