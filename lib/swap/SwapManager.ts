@@ -313,7 +313,7 @@ class SwapManager {
         } else {
           return {
             blocks: await currency.provider!.getBlockNumber(),
-            blockTime: TimeoutDeltaProvider.blockTimes.get('ETH')!,
+            blockTime: TimeoutDeltaProvider.blockTimes.get('RBTC')!,
           };
         }
       };
@@ -322,6 +322,7 @@ class SwapManager {
       const blocksUntilExpiry = swap.timeoutBlockHeight - blocks;
 
       const timeoutTimestamp = getUnixTime() + (blocksUntilExpiry * blockTime * 60);
+      console.log('swapmanager.325 channelcreation blocks blockTime blocksUntilExpiry timeoutTimestamp ', blocks, blockTime, blocksUntilExpiry, timeoutTimestamp);
 
       const invoiceError = Errors.INVOICE_EXPIRES_TOO_EARLY(invoiceExpiry, timeoutTimestamp);
 
