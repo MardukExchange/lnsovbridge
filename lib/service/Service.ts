@@ -17,7 +17,8 @@ import { Payment, RouteHint } from '../proto/lnd/rpc_pb';
 import TimeoutDeltaProvider from './TimeoutDeltaProvider';
 import { Network } from '../wallet/ethereum/EthereumManager';
 import RateProvider, { PairType } from '../rates/RateProvider';
-import { getGasPrice } from '../wallet/ethereum/EthereumUtils';
+// import { getGasPrice } from '../wallet/ethereum/EthereumUtils';
+import { getGasPrice } from '../wallet/rsk/EthereumUtils';
 import WalletManager, { Currency } from '../wallet/WalletManager';
 import SwapManager, { ChannelCreationInfo } from '../swap/SwapManager';
 import { etherDecimals, ethereumPrepayMinerFeeGasLimit, gweiDecimals } from '../consts/Consts';
@@ -1019,11 +1020,16 @@ class Service {
       } else {
         const gasPrice = await getGasPrice(sendingCurrency.provider!);
         prepayMinerFeeOnchainAmount = ethereumPrepayMinerFeeGasLimit.mul(gasPrice).div(etherDecimals).toNumber();
+        console.log('service.1022 gasPrice, prepayMinerFeeOnchainAmount ', gasPrice, prepayMinerFeeOnchainAmount);
 
-        const sendingAmountRate = sending === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', sending);
+        // console.log('service.1023 swapIsPrepayMinerFee, sending, receiving ', swapIsPrepayMinerFee, sending, receiving);
+        // const sendingAmountRate = sending === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', sending);
+        const sendingAmountRate = sending === 'RBTC' ? 1 : this.rateProvider.rateCalculator.calculateRate('RBTC', sending);
 
-        const receivingAmountRate = receiving === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', receiving);
+        // const receivingAmountRate = receiving === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', receiving);
+        const receivingAmountRate = receiving === 'RBTC' ? 1 : this.rateProvider.rateCalculator.calculateRate('RBTC', receiving);
         prepayMinerFeeInvoiceAmount = Math.ceil(prepayMinerFeeOnchainAmount * receivingAmountRate);
+        console.log('service.1030 prepayMinerFeeOnchainAmount prepayMinerFeeInvoiceAmount receivingAmountRate', prepayMinerFeeOnchainAmount, prepayMinerFeeInvoiceAmount, receivingAmountRate);
 
         // If the invoice amount was specified, the onchain and hold invoice amounts need to be adjusted
         if (invoiceAmountDefined) {

@@ -12,7 +12,6 @@ class RateCalculator {
     });
 
     let rate = this.aggregator.latestRates.get(pair);
-
     if (rate === undefined) {
       // Try the reverse rate
       rate = this.aggregator.latestRates.get(getPairId({
@@ -30,7 +29,12 @@ class RateCalculator {
           quote: 'BTC',
         }));
 
+        // return rate=1 for RBTC prepayminerfee
+        if (base === 'RBTC' && quote === 'BTC') {
+          return 1;
+        }
         if (baseBtc === undefined) {
+          // console.log('ratecalculator.34');
           throw Errors.COULD_NOT_FIND_RATE(pair);
         }
 
@@ -40,6 +44,7 @@ class RateCalculator {
         }));
 
         if (quoteBtc === undefined) {
+          // console.log('ratecalculator.44');
           throw Errors.COULD_NOT_FIND_RATE(pair);
         }
 
