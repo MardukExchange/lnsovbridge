@@ -299,6 +299,9 @@ class SwapManager {
     });
 
     if (channelCreation) {
+      // need to decode invoice and throw AMOUNT_TOO_LOW_FOR_CHANNELOPEN
+      // if below a certain amount - to avoid opening small channels
+
       const getChainInfo = async (currency: Currency): Promise<{ blocks: number, blockTime: number }> => {
         if (currency.type === CurrencyType.BitcoinLike) {
           const { blocks } = await currency.chainClient!.getBlockchainInfo();
