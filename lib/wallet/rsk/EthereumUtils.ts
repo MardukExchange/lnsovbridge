@@ -22,7 +22,7 @@ export const getGasPrice = async (provider: providers.Provider, gasPrice?: numbe
     return BigNumber.from(gasPrice).mul(gweiDecimals);
   }
 
-  // for rsk mainnet tx uses 0.000000000065164 gas which is returned as {"jsonrpc":"2.0","id":73,"result":"0x3e252e0"} = 65164000
+  // for rsk mainnet tx uses 0.000000000065164 RBTC gas which is returned as {"jsonrpc":"2.0","id":73,"result":"0x3e252e0"} = 65164000wei=0.065164gwei=651sats
   // from {"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":73}
   // on mainnet this already returns 65164000 so not changing it
   console.log('rsk/utils.26 getGasPrice getBiggerBigNumber: ', await provider.getGasPrice(), GasNow.latestGasPrice, BigNumber.from(65164000))
