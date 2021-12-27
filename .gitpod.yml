@@ -49,7 +49,9 @@ tasks:
   - init: |
       npm install
     command: |
+      echo curl 'http://localhost:4444/'  -X POST   -H "Content-Type: application/json"   --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
       echo regtest rsk - rpc url: https://4444-${GITPOD_WORKSPACE_URL:8}, chainid: 33
+      echo or use companion app https://www.gitpod.io/blog/local-app#installation
       echo npm run dev
   #npm run dev
   - init: |
@@ -75,10 +77,10 @@ tasks:
 ports:
   - port: 9001
     visibility: public
-    onOpen: open-browser
+    onOpen: ignore
   - port: 3000
     visibility: public
     onOpen: open-browser
   - port: 4444
     visibility: public
-    onOpen: open-browser
+    onOpen: ignore
