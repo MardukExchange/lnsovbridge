@@ -30,11 +30,13 @@ class RateCalculator {
         }));
 
         // return rate=1 for RBTC prepayminerfee
-        if (base === 'RBTC' && quote === 'BTC') {
+        // return some value for SOV as its irrelevant
+        if (base === 'RBTC' || base === 'SOV') {
           return 1;
         }
+        console.log('ratecalc.36 base quote latestrates ', base, quote, this.aggregator.latestRates);
         if (baseBtc === undefined) {
-          // console.log('ratecalculator.34');
+          console.log('ratecalculator.34');
           throw Errors.COULD_NOT_FIND_RATE(pair);
         }
 
@@ -44,7 +46,7 @@ class RateCalculator {
         }));
 
         if (quoteBtc === undefined) {
-          // console.log('ratecalculator.44');
+          console.log('ratecalculator.44');
           throw Errors.COULD_NOT_FIND_RATE(pair);
         }
 

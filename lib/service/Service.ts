@@ -1013,7 +1013,8 @@ class Service {
 
     const swapIsPrepayMinerFee = this.prepayMinerFee || args.prepayMinerFee === true;
 
-    if (swapIsPrepayMinerFee) {
+    // skip prepayminerfee for ERC20 tokens
+    if (swapIsPrepayMinerFee && sendingCurrency.type !== CurrencyType.ERC20) {
       if (sendingCurrency.type === CurrencyType.BitcoinLike) {
         prepayMinerFeeInvoiceAmount = Math.ceil(baseFee / rate);
         holdInvoiceAmount = Math.floor(holdInvoiceAmount - prepayMinerFeeInvoiceAmount);
@@ -1022,14 +1023,14 @@ class Service {
         prepayMinerFeeOnchainAmount = ethereumPrepayMinerFeeGasLimit.mul(gasPrice).div(etherDecimals).toNumber();
         console.log('service.1022 gasPrice, prepayMinerFeeOnchainAmount ', gasPrice, prepayMinerFeeOnchainAmount);
 
-        // console.log('service.1023 swapIsPrepayMinerFee, sending, receiving ', swapIsPrepayMinerFee, sending, receiving);
+        console.log('service.1023 swapIsPrepayMinerFee, sending, receiving ', swapIsPrepayMinerFee, sending, receiving);
         // const sendingAmountRate = sending === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', sending);
         const sendingAmountRate = sending === 'RBTC' ? 1 : this.rateProvider.rateCalculator.calculateRate('RBTC', sending);
 
         // const receivingAmountRate = receiving === 'ETH' ? 1 : this.rateProvider.rateCalculator.calculateRate('ETH', receiving);
         const receivingAmountRate = receiving === 'RBTC' ? 1 : this.rateProvider.rateCalculator.calculateRate('RBTC', receiving);
         prepayMinerFeeInvoiceAmount = Math.ceil(prepayMinerFeeOnchainAmount * receivingAmountRate);
-        console.log('service.1030 prepayMinerFeeOnchainAmount prepayMinerFeeInvoiceAmount receivingAmountRate', prepayMinerFeeOnchainAmount, prepayMinerFeeInvoiceAmount, receivingAmountRate);
+        console.log('service.1030 prepayMinerFeeOnchainAmount prepayMinerFeeInvoiceAmount receivingAmountRate sendingAmountRate', prepayMinerFeeOnchainAmount, prepayMinerFeeInvoiceAmount, receivingAmountRate, sendingAmountRate);
 
         // If the invoice amount was specified, the onchain and hold invoice amounts need to be adjusted
         if (invoiceAmountDefined) {
