@@ -530,8 +530,8 @@ class SwapManager {
       refundAddress = refundAddress.toLowerCase();
 
       // HACK: send tokenaddress as redeemScript to frontend so user can claim
-      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get('SOV') || '', 'utf8');
-      this.logger.verbose('swapmanager.225 redeemScript ' + this.walletManager.rskManager?.tokenAddresses.get('SOV') + ', ' + getHexString(redeemScript));
+      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get(args.quoteCurrency) || '', 'utf8');
+      this.logger.verbose('swapmanager.534 redeemScript ' + this.walletManager.rskManager?.tokenAddresses.get(args.quoteCurrency) + ', ' + getHexString(redeemScript));
 
       this.logger.error('prepared reverse swap stuff: ' + blockNumber + ', ' + lockupAddress + ', ' + refundAddress);
 
