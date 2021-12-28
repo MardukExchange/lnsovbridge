@@ -347,7 +347,8 @@ class SwapManager {
 
       // need to decode invoice and throw AMOUNT_TOO_LOW_FOR_CHANNELOPEN - check after everything else
       // if below a certain amount - to avoid opening small channels
-      if(decodedInvoice.satoshis < 100000) {
+      // TODO: Add another check to see if we already have channels with this peer
+      if(decodedInvoice.satoshis < 100000 && !await this.checkRoutability(sendingCurrency.lndClient!, invoice)) {
         console.log('swapmanager.305 decodedInvoice.satoshis is smaller than limit 100k sats ', decodedInvoice.satoshis);
         throw Errors.AMOUNT_TOO_LOW_FOR_CHANNELOPEN();
       }
@@ -632,7 +633,9 @@ class SwapManager {
         decodedInvoice.numSatoshis;
 
       const routes = await lnd.queryRoutes(decodedInvoice.destination, amountToQuery);
-
+      console.log('swapmanager.636 checkRoutability routes ', routes);
+      // TODO: I think this needs to be simplified - check for amount and if there's an existing channel with node
+      
       // TODO: "routes.routesList.length >= LndClient.paymentParts" when receiver supports MPP?
       return routes.routesList.length > 0;
     } catch (error) {
