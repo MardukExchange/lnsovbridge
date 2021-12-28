@@ -299,9 +299,6 @@ class SwapManager {
     });
 
     if (channelCreation) {
-      // need to decode invoice and throw AMOUNT_TOO_LOW_FOR_CHANNELOPEN
-      // if below a certain amount - to avoid opening small channels
-
       const getChainInfo = async (currency: Currency): Promise<{ blocks: number, blockTime: number }> => {
         if (currency.type === CurrencyType.BitcoinLike) {
           const { blocks } = await currency.chainClient!.getBlockchainInfo();
@@ -346,6 +343,13 @@ class SwapManager {
         } else {
           throw invoiceError;
         }
+      }
+
+      // need to decode invoice and throw AMOUNT_TOO_LOW_FOR_CHANNELOPEN - check after everything else
+      // if below a certain amount - to avoid opening small channels
+      if(decodedInvoice.satoshis < 100000) {
+        console.log('swapmanager.305 decodedInvoice.satoshis is smaller than limit 100k sats ', decodedInvoice.satoshis);
+        throw Errors.AMOUNT_TOO_LOW_FOR_CHANNELOPEN();
       }
 
       await this.channelCreationRepository.setNodePublicKey(channelCreation, decodedInvoice.payeeNodeKey!);
