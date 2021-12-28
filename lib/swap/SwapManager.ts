@@ -674,7 +674,7 @@ class SwapManager {
     } else if (type === CurrencyType.Rbtc) {
       addresstoreturn = rskManager.etherSwap.address
     } else {
-      if (quoteCurrency == 'SOV') {
+      if (quoteCurrency == 'SOV' || quoteCurrency == 'XUSD') {
         this.logger.error('getlockupcontractaddress from rsk')
         addresstoreturn = rskManager.erc20Swap.address
       } else {

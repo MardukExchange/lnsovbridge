@@ -124,7 +124,7 @@ class Service {
 
     const checkCurrency = (symbol: string) => {
       if (!this.currencies.has(symbol)) {
-        // console.log("service.ts line 123");
+        console.log("service.ts line 123 ", );
         throw Errors.CURRENCY_NOT_FOUND(symbol);
       }
     };
