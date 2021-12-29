@@ -8,6 +8,14 @@ tasks:
       cp boltz.gitpod.conf ~/.boltz/boltz.conf
       echo "agree color smart member eagle air march always tornado curious endless wise" > ~/.boltz/seed.dat
     command: yarn rsk:geth
+  # - init: |
+  #     cd ~
+  #     git clone https://github.com/rsksmart/artifacts.git
+  #     cd /home/gitpod/artifacts/Dockerfiles/RSK-Node
+  #     docker build -t rskregtest -f Dockerfile.RegTest .
+  #     docker run -d --name regtest-node-01  -p 4444:4444 -p 30305:30305 rskregtest
+  #   command: |
+  #     echo 'docker rsk should be running - tried this to get around 4444 reachability issue'
   - init: |
         sudo apt install rsync --assume-yes
         sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -35,12 +43,15 @@ tasks:
   - init: |
       yarn docker:regtest 
     command: >
-      docker exec -it regtest bash
-    # alias lnclibtc2='lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      echo 'lnclibtc2 command is ready'
+    # docker exec -it regtest bash
   - init: |
       npm install
     command: |
+      echo curl 'http://localhost:4444/'  -X POST   -H "Content-Type: application/json"   --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
       echo regtest rsk - rpc url: https://4444-${GITPOD_WORKSPACE_URL:8}, chainid: 33
+      echo or use companion app https://www.gitpod.io/blog/local-app#installation
       echo npm run dev
   #npm run dev
   - init: |
@@ -66,7 +77,10 @@ tasks:
 ports:
   - port: 9001
     visibility: public
-    onOpen: open-browser
+    onOpen: ignore
   - port: 3000
     visibility: public
     onOpen: open-browser
+  - port: 4444
+    visibility: public
+    onOpen: ignore
