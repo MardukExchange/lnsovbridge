@@ -221,8 +221,8 @@ class SwapManager {
       claimAddress = await receivingCurrency.wallet.getAddress();
 
       // HACK: send tokenaddress as redeemScript to frontend so user can claim
-      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get('SOV') || '', 'utf8');
-      this.logger.verbose('swapmanager.225 redeemScript ' + getHexString(redeemScript));
+      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get(args.quoteCurrency) || '', 'utf8');
+      this.logger.verbose('swapmanager.225 redeemScript from args.quoteCurrency ' + getHexString(redeemScript!) + ', ' + args.quoteCurrency);
 
       await this.swapRepository.addSwap({
         id,
@@ -313,7 +313,7 @@ class SwapManager {
         } else {
           return {
             blocks: await currency.provider!.getBlockNumber(),
-            blockTime: TimeoutDeltaProvider.blockTimes.get('ETH')!,
+            blockTime: TimeoutDeltaProvider.blockTimes.get('RBTC')!,
           };
         }
       };
@@ -322,6 +322,7 @@ class SwapManager {
       const blocksUntilExpiry = swap.timeoutBlockHeight - blocks;
 
       const timeoutTimestamp = getUnixTime() + (blocksUntilExpiry * blockTime * 60);
+      console.log('swapmanager.325 channelcreation blocks blockTime blocksUntilExpiry timeoutTimestamp ', blocks, blockTime, blocksUntilExpiry, timeoutTimestamp);
 
       const invoiceError = Errors.INVOICE_EXPIRES_TOO_EARLY(invoiceExpiry, timeoutTimestamp);
 
@@ -342,6 +343,14 @@ class SwapManager {
         } else {
           throw invoiceError;
         }
+      }
+
+      // need to decode invoice and throw AMOUNT_TOO_LOW_FOR_CHANNELOPEN - check after everything else
+      // if below a certain amount - to avoid opening small channels
+      // TODO: Add another check to see if we already have channels with this peer
+      if(decodedInvoice.satoshis < 100000 && !await this.checkRoutability(sendingCurrency.lndClient!, invoice)) {
+        console.log('swapmanager.305 decodedInvoice.satoshis is smaller than limit 100k sats ', decodedInvoice.satoshis);
+        throw Errors.AMOUNT_TOO_LOW_FOR_CHANNELOPEN();
       }
 
       await this.channelCreationRepository.setNodePublicKey(channelCreation, decodedInvoice.payeeNodeKey!);
@@ -526,8 +535,8 @@ class SwapManager {
       refundAddress = refundAddress.toLowerCase();
 
       // HACK: send tokenaddress as redeemScript to frontend so user can claim
-      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get('SOV') || '', 'utf8');
-      this.logger.verbose('swapmanager.225 redeemScript ' + this.walletManager.rskManager?.tokenAddresses.get('SOV') + ', ' + getHexString(redeemScript));
+      redeemScript = Buffer.from(this.walletManager.rskManager?.tokenAddresses.get(args.quoteCurrency) || '', 'utf8');
+      this.logger.verbose('swapmanager.534 redeemScript ' + this.walletManager.rskManager?.tokenAddresses.get(args.quoteCurrency) + ', ' + getHexString(redeemScript));
 
       this.logger.error('prepared reverse swap stuff: ' + blockNumber + ', ' + lockupAddress + ', ' + refundAddress);
 
@@ -624,7 +633,9 @@ class SwapManager {
         decodedInvoice.numSatoshis;
 
       const routes = await lnd.queryRoutes(decodedInvoice.destination, amountToQuery);
-
+      console.log('swapmanager.636 checkRoutability routes ', routes);
+      // TODO: I think this needs to be simplified - check for amount and if there's an existing channel with node
+      
       // TODO: "routes.routesList.length >= LndClient.paymentParts" when receiver supports MPP?
       return routes.routesList.length > 0;
     } catch (error) {
@@ -670,7 +681,7 @@ class SwapManager {
     } else if (type === CurrencyType.Rbtc) {
       addresstoreturn = rskManager.etherSwap.address
     } else {
-      if (quoteCurrency == 'SOV') {
+      if (quoteCurrency == 'SOV' || quoteCurrency == 'XUSD') {
         this.logger.error('getlockupcontractaddress from rsk')
         addresstoreturn = rskManager.erc20Swap.address
       } else {

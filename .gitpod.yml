@@ -26,14 +26,15 @@ tasks:
       echo 'loadScript("/workspace/lnsovbridge/etherswap.js")'
       echo 'loadScript("/workspace/lnsovbridge/erc20swap.js")'
       echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
+      echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
       geth attach http://127.0.0.1:4444/
     # fund metamask with regtest rsk - rpc url: https://4444-scarlet-kite-mva383vt.ws-us18.gitpod.io, chainid: 33
     # eth.sendTransaction({from:eth.accounts[1], to:'0x946b238f8Ead0170686b32b23070fF4BFB006D3B', value: web3.toWei(10, "ether"), gas:21000}); //fund your wallet
     # eth.sendTransaction({from:eth.accounts[1], to:'0xeCb6b2a431826634E36d2787016670EBd8AF5A9B', value: web3.toWei(10, "ether"), gas:21000}); //fund boltz signer
     # web3.eth.defaultAccount = eth.accounts[1]
     # erc20token.transfer('0x946b238f8Ead0170686b32b23070fF4BFB006D3B', web3.toWei(1000, "ether")); // erc20 tokens to metamask wallet
-    # erc20token.transfer('0xeCb6b2a431826634E36d2787016670EBd8AF5A9B', web3.toWei(1000, "ether")); // erc20 tokens to boltz siger
-    # add erc20 token address to metamask 0x271905cc3d21d8d11f3213e4130108295e578434
+    # erc20token.transfer('0xeCb6b2a431826634E36d2787016670EBd8AF5A9B', web3.toWei(1000, "ether")); // erc20 tokens to boltz signer
+    # add erc20 token address to metamask 0x271905cc3d21d8d11f3213e4130108295e578434 + another time for XUSD 0x738e6fcdd7c1212469da9531a0c7a12aa6e6ccc1 or 0x59014d3017a5ad194d6b8a82a34b5b43beca72f7
     # geth attach http://127.0.0.1:4444/ --jspath "/workspace/lnsovbridge" --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js");' 
     # sleep 5
     #     web3.eth.defaultAccount = eth.accounts[0]
