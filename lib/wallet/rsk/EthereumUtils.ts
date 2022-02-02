@@ -25,7 +25,7 @@ export const getGasPrice = async (provider: providers.Provider, gasPrice?: numbe
   // for rsk mainnet tx uses 0.000000000065164 RBTC gas which is returned as {"jsonrpc":"2.0","id":73,"result":"0x3e252e0"} = 65164000wei=0.065164gwei=651sats
   // from {"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":73}
   // on mainnet this already returns 65164000 so not changing it
-  console.log('rsk/utils.26 getGasPrice getBiggerBigNumber: ', await provider.getGasPrice(), GasNow.latestGasPrice, BigNumber.from(65164000))
+  // console.log('rsk/utils.26 getGasPrice getBiggerBigNumber: ', await provider.getGasPrice(), GasNow.latestGasPrice, BigNumber.from(65164000))
   // GasNow.latestGasPrice, -> doesn't exist and doesn't make sense for rsk anyway
   return getBiggerBigNumber(await provider.getGasPrice(), BigNumber.from(65164000));
 };
