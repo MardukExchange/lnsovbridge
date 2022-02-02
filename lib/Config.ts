@@ -289,6 +289,9 @@ class Config {
             host: '127.0.0.1',
             port: 18334,
             cookie: 'docker/regtest/data/core/cookies/.bitcoin-cookie',
+            // cookie: '',
+            // user: 'topkek',
+            // password: 'topkek',
           },
 
           lnd: {

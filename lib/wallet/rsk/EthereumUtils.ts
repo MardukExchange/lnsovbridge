@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers';
-import GasNow from './GasNow';
+// import GasNow from './GasNow';
 import { gweiDecimals } from '../../consts/Consts';
 import { getBiggerBigNumber, getHexBuffer } from '../../Utils';
 

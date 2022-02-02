@@ -17,6 +17,7 @@ class RpcClient {
 
     // If a cookie is configured, it will be preferred
     if (config.cookie && config.cookie !== '') {
+      // console.log('rpcClient.20 using cookieFile ', config.cookie);
       if (!existsSync(config.cookie)) {
         throw Errors.INVALID_COOKIE_FILE(config.cookie);
       }
@@ -24,6 +25,7 @@ class RpcClient {
       const cookieFile = readFileSync(config.cookie, 'utf-8').trim();
       this.auth = Buffer.from(cookieFile).toString('base64');
     } else if (config.user && config.password) {
+      // console.log('rpcClient.27 using user, password ', config.user, config.password);
       this.auth = Buffer.from(`${config.user}:${config.password}`).toString('base64');
     } else {
       throw Errors.NO_AUTHENTICATION();
