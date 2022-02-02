@@ -67,6 +67,7 @@ tasks:
     # lnd --lnddir=/root/.lnd-btc --listen=0.0.0.0:9735 --rpclisten=0.0.0.0:10009 --restlisten=0.0.0.0:8080 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443
     # lnd --lnddir=/root/.lnd-btc2 --listen=127.0.0.1:9736 --rpclisten=0.0.0.0:10011 --restlisten=0.0.0.0:8081 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443
     # bitcoin-cli -regtest createwallet "test1"
+    # open channel from blixt to 02eab8a8f2f22e3423b9533bf95766625def0cc92ad96bf06e1fa3a8fd18cecf5f@192.168.0.143:9736
   - init: |
       npm install
     command: |
@@ -103,5 +104,8 @@ ports:
     visibility: public
     onOpen: open-browser
   - port: 4444
+    visibility: public
+    onOpen: ignore
+  - port: 9736
     visibility: public
     onOpen: ignore
