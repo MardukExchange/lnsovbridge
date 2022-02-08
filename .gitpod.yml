@@ -52,18 +52,28 @@ tasks:
       echo 'bitcoin-cli -regtest -generate 4'
       echo 'watch -n10 -x bitcoin-cli -regtest -generate 1'
       echo 'lnclibtc2 command is ready'
-    # docker exec -it regtest bash
-    # bitcoin-cli stop
-    # echo -e 'rpcuser=topkek\nrpcpassword=topkek' >> ~/.bitcoin/bitcoin.conf
-    # bitcoind
-    # echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> ~/.lnd-btc/lnd.conf
-    # echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> ~/.lnd-btc2/lnd.conf
-    # restart lnds
-    # lnd --lnddir=/root/.lnd-btc --listen=0.0.0.0:9735 --rpclisten=0.0.0.0:10009 --restlisten=0.0.0.0:8080 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443
-    # lnd --lnddir=/root/.lnd-btc2 --listen=127.0.0.1:9736 --rpclisten=0.0.0.0:10011 --restlisten=0.0.0.0:8081 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443
-    # bitcoin-cli -regtest createwallet "test1" // fund blixt from lnclibtc1 sendcoins and then mine blocks
+  - init: |
+      echo 'modifying regtest container to work with blixt'
+    command: |
+      alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      alias lnclibtc1='docker exec -it regtest lncli --rpcserver=127.0.0.1:10009 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc2/data/chain/bitcoin/regtest/admin.macaroon'
+      alias bitcoin-cli='docker exec -it regtest bitcoin-cli'
+      bitcoin-cli stop
+      sleep 3
+      docker exec -it regtest bash -c "echo -e 'rpcuser=topkek\nrpcpassword=topkek' >> /root/.bitcoin/bitcoin.conf"
+      docker exec -it regtest bitcoind
+      docker exec -it regtest bash -c "echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> /root/.lnd-btc/lnd.conf"
+      docker exec -it regtest bash -c "echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> /root/.lnd-btc2/lnd.conf"
+      lnclibtc1 stop
+      lnclibtc2 stop
+      sleep 3
+      bitcoin-cli -regtest createwallet "test1"
+      echo 'topkek:topkek' > docker/regtest/data/core/cookies/.bitcoin-cookie
+      watch -n10 -x docker exec -it regtest bitcoin-cli -regtest -generate 1
+    # restart lnds in separate windows
+    # docker exec -it regtest bash -c "nohup lnd --lnddir=/root/.lnd-btc --listen=0.0.0.0:9735 --rpclisten=0.0.0.0:10009 --restlisten=0.0.0.0:8080 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443 &"
+    # docker exec -it regtest bash -c "nohup lnd --lnddir=/root/.lnd-btc2 --listen=127.0.0.1:9736 --rpclisten=0.0.0.0:10011 --restlisten=0.0.0.0:8081 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443 &"
     # open channel from blixt to 02eab8a8f2f22e3423b9533bf95766625def0cc92ad96bf06e1fa3a8fd18cecf5f@192.168.0.143:9736
-    # echo 'topkek:topkek' > docker/regtest/data/core/cookies/.bitcoin-cookie # re-start lnsovbridge
   - init: |
       npm install
     command: |
