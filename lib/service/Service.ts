@@ -1013,8 +1013,8 @@ class Service {
 
     const swapIsPrepayMinerFee = this.prepayMinerFee || args.prepayMinerFee === true;
 
-    // skip prepayminerfee for ERC20 tokens
-    if (swapIsPrepayMinerFee && sendingCurrency.type !== CurrencyType.ERC20) {
+    // don't skip prepayminerfee for ERC20 tokens
+    if (swapIsPrepayMinerFee) {
       if (sendingCurrency.type === CurrencyType.BitcoinLike) {
         prepayMinerFeeInvoiceAmount = Math.ceil(baseFee / rate);
         holdInvoiceAmount = Math.floor(holdInvoiceAmount - prepayMinerFeeInvoiceAmount);

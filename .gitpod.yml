@@ -22,12 +22,13 @@ tasks:
         sudo apt-get update --assume-yes
         sudo apt-get install ethereum --assume-yes
     command: |
-      echo 'web3.eth.defaultAccount = eth.accounts[0]'
-      echo 'loadScript("/workspace/lnsovbridge/etherswap.js")'
-      echo 'loadScript("/workspace/lnsovbridge/erc20swap.js")'
-      echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
-      echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
+      echo 'loadScript("/workspace/lnsovbridge/gethstartup.js")'
       geth attach http://127.0.0.1:4444/
+    # echo 'web3.eth.defaultAccount = eth.accounts[0]'
+    # echo 'loadScript("/workspace/lnsovbridge/etherswap.js")'
+    # echo 'loadScript("/workspace/lnsovbridge/erc20swap.js")'
+    # echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
+    # echo 'loadScript("/workspace/lnsovbridge/erc20token.js")'
     # fund metamask with regtest rsk - rpc url: https://4444-scarlet-kite-mva383vt.ws-us18.gitpod.io, chainid: 33
     # eth.sendTransaction({from:eth.accounts[1], to:'0x946b238f8Ead0170686b32b23070fF4BFB006D3B', value: web3.toWei(10, "ether"), gas:21000}); //fund your wallet
     # eth.sendTransaction({from:eth.accounts[1], to:'0xeCb6b2a431826634E36d2787016670EBd8AF5A9B', value: web3.toWei(10, "ether"), gas:21000}); //fund boltz signer
@@ -35,7 +36,7 @@ tasks:
     # erc20token.transfer('0x946b238f8Ead0170686b32b23070fF4BFB006D3B', web3.toWei(1000, "ether")); // erc20 tokens to metamask wallet
     # erc20token.transfer('0xeCb6b2a431826634E36d2787016670EBd8AF5A9B', web3.toWei(1000, "ether")); // erc20 tokens to boltz signer
     # add erc20 token address to metamask 0x271905cc3d21d8d11f3213e4130108295e578434 + another time for XUSD 0x738e6fcdd7c1212469da9531a0c7a12aa6e6ccc1 or 0x59014d3017a5ad194d6b8a82a34b5b43beca72f7
-    # geth attach http://127.0.0.1:4444/ --jspath "/workspace/lnsovbridge" --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js");' 
+    # geth attach http://127.0.0.1:4444/ --jspath "/workspace/lnsovbridge" --exec 'loadScript("etherswap.js"); loadScript("erc20swap.js"); loadScript("erc20token.js"); loadScript("erc20token.js");' 
     # sleep 5
     #     web3.eth.defaultAccount = eth.accounts[0]
     #     loadScript("/workspace/lnsovbridge/erc20swap.js")
@@ -45,8 +46,34 @@ tasks:
       yarn docker:regtest 
     command: >
       alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      alias lnclibtc1='docker exec -it regtest lncli --rpcserver=127.0.0.1:10009 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc2/data/chain/bitcoin/regtest/admin.macaroon'
+      alias bitcoin-cli='docker exec -it regtest bitcoin-cli'
+      echo "bitcoin-cli send '{\"bcrt1q93rsj05zw3pvf8pa4gpjaypy5x5mqws49as43t\":10}'"
+      echo 'bitcoin-cli -regtest -generate 4'
+      echo 'watch -n10 -x bitcoin-cli -regtest -generate 1'
       echo 'lnclibtc2 command is ready'
-    # docker exec -it regtest bash
+  - init: |
+      echo 'modifying regtest container to work with blixt'
+    command: |
+      alias lnclibtc2='docker exec -it regtest lncli --rpcserver=127.0.0.1:10011 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc/data/chain/bitcoin/regtest/admin.macaroon'
+      alias lnclibtc1='docker exec -it regtest lncli --rpcserver=127.0.0.1:10009 --tlscertpath=/root/.lnd-btc/tls.cert --macaroonpath=/root/.lnd-btc2/data/chain/bitcoin/regtest/admin.macaroon'
+      alias bitcoin-cli='docker exec -it regtest bitcoin-cli'
+      bitcoin-cli stop
+      sleep 3
+      docker exec -it regtest bash -c "echo -e 'rpcuser=topkek\nrpcpassword=topkek' >> /root/.bitcoin/bitcoin.conf"
+      docker exec -it regtest bitcoind
+      docker exec -it regtest bash -c "echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> /root/.lnd-btc/lnd.conf"
+      docker exec -it regtest bash -c "echo -e '[Bitcoind]\nbitcoind.rpcuser=topkek\nbitcoind.rpcpass=topkek\nbitcoind.zmqpubrawblock=tcp://127.0.0.1:29001\nbitcoind.zmqpubrawtx=tcp://127.0.0.1:29000' >> /root/.lnd-btc2/lnd.conf"
+      lnclibtc1 stop
+      lnclibtc2 stop
+      sleep 3
+      bitcoin-cli -regtest createwallet "test1"
+      echo 'topkek:topkek' > docker/regtest/data/core/cookies/.bitcoin-cookie
+      watch -n10 -x docker exec -it regtest bitcoin-cli -regtest -generate 1
+    # restart lnds in separate windows
+    # docker exec -it regtest bash -c "nohup lnd --lnddir=/root/.lnd-btc --listen=0.0.0.0:9735 --rpclisten=0.0.0.0:10009 --restlisten=0.0.0.0:8080 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443 &"
+    # docker exec -it regtest bash -c "nohup lnd --lnddir=/root/.lnd-btc2 --listen=127.0.0.1:9736 --rpclisten=0.0.0.0:10011 --restlisten=0.0.0.0:8081 --bitcoin.active --bitcoin.regtest --bitcoin.node=bitcoind --bitcoind.rpchost=127.0.0.1:18443 &"
+    # open channel from blixt to 02eab8a8f2f22e3423b9533bf95766625def0cc92ad96bf06e1fa3a8fd18cecf5f@192.168.0.143:9736
   - init: |
       npm install
     command: |
@@ -83,5 +110,8 @@ ports:
     visibility: public
     onOpen: open-browser
   - port: 4444
+    visibility: public
+    onOpen: ignore
+  - port: 9736
     visibility: public
     onOpen: ignore

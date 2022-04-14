@@ -96,7 +96,7 @@ export default {
     code: concatErrorCode(ErrorCodePrefix.Service, 31),
   }),
   INVALID_ETHEREUM_ADDRESS: (): Error => ({
-    message: 'and invalid Ethereum address was provided',
+    message: 'an invalid Rootstock address was provided',
     code: concatErrorCode(ErrorCodePrefix.Service, 26),
   }),
   INVALID_PAIR_HASH: (): Error => ({

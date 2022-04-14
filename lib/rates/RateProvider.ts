@@ -169,7 +169,7 @@ class RateProvider {
     await this.updateMinerFees();
 
     for (const [pairId, rate] of updatedRates) {
-      this.logger.info('rateprovider.172 ' + pairId);
+      // this.logger.info('rateprovider.172 ' + pairId);
       // Filter pairs that are fetched (for example to calculate gas fees for a BTC/<token> pair)
       // but not specified in the config
       if (!this.configPairs.has(pairId)) {
